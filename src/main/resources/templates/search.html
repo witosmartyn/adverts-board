@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title>AB</title>
+</head>
+
+
+<body>
+<div layout:fragment="content">
+    <div id="statistic">
+    </div>
+<!-- search filters -->
+    <div class="row">
+        <div class="span">
+            <div class="col-xs-12">
+                <form action="/search" method="get">
+                    <div class="col-xs-12">
+                        <div class="input-group input-group-lg ">
+                            <input type="text" class="form-control" autofocus name="query" id="query"
+                                   th:value="${__${T(com.witosmartyn.app.config.constants.ATTR_NAME).QUERY}__}"
+                                   th:placeholder="#{search.what.find}"/>
+
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary " type="submit" th:text="#{msg.action.find}"></button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12  ">
+                        <div class="col-sm-3  form-group  input-group-lg">
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   th:name="searchInDescription"
+                                   th:checked="${searchInDescription }"
+                                   th:text="#{msg.search.in.description}"/>
+                        </div>
+                        <div class="col-sm-4  form-group  input-group-lg">
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   name="ignoreCase"
+                                   th:checked="${ignoreCase}"
+                                   th:text="#{msg.search.ignorecase}"/>
+                        </div>
+                    </div>
+
+                    <div class="filters">
+
+                        <!--priceBetween-->
+                        <div id="priceFilter" class="">
+                            <div class="form-group col-xs-12 col-sm-6 col-md-2">
+                                <label for="fromPrice" class="col-xs-6 col-md-1 control-label"
+                                       th:text="#{msg.price.min}"></label>
+                                <div class="">
+                                    <input name="fromPrice"
+                                           class="form-control"
+                                           th:placeholder="#{'min'}"
+                                           th:value="${__${T(com.witosmartyn.app.config.constants.ATTR_NAME)?.FROM_PRICE}__}"
+                                           id="fromPrice"/>
+                                </div>
+
+                            </div>
+                            <div class="form-group col-xs-12 col-sm-6 col-md-2">
+                                <label for="toPrice" class="col-xs-6 col-md-1 control-label"
+                                       th:text="#{msg.price.max}"></label>
+                                <input name="toPrice"
+                                       class="form-control"
+                                       th:placeholder="#{'max'}"
+                                       th:value="${__${T(com.witosmartyn.app.config.constants.ATTR_NAME)?.TO_PRICE}__}"
+                                       id="toPrice"/>
+                            </div>
+                        </div>
+
+
+                        <!--sortby-->
+                        <div class="form-group col-xs-12 col-sm-6 col-md-2">
+                            <label class="col-xs-6 col-md-1 control-label" th:text="#{msg.sort.by}">Label </label>
+                            <select onchange="this.form.submit()"
+                                    name="sortBy"
+                                    class="selectpicker form-control form-control-lg">
+                                <option th:each="field:${T(com.witosmartyn.app.config.enums.ItemField).values()}"
+                                        th:text="#{'msg.sort.'+${field}}"
+                                        th:selected="${field} eq ${sortBy}"
+                                        th:value="${field}"
+                                ></option>
+                            </select>
+                        </div>
+                        <!--orderBy-->
+                        <div class="form-group col-xs-12 col-sm-6 col-md-2">
+                            <label class="col-xs-6 col-md-1 control-label" th:text="#{msg.order.by}"></label>
+                            <select onchange="this.form.submit()"
+                                    name="orderBy"
+                                    class="selectpicker form-control form-control-lg">
+                                <option th:each="direction:${T(org.springframework.data.domain.Sort.Direction).values()}"
+                                        th:text="#{__${direction}__}"
+                                        th:selected="${direction} eq ${orderBy}"
+                                        th:value="${direction}"
+                                ></option>
+                            </select>
+                        </div>
+                        <!--city-->
+                        <div class="form-group col-xs-12 col-sm-6 col-md-2">
+                            <label class="col-xs-6 col-md-1 control-label" th:text="#{city}"></label>
+                            <!--city-->
+                            <select name="city"
+                                    onchange="this.form.submit()"
+                                    class="selectpicker form-control form-control-lg">
+                                <option th:value="${null}" selected="true"
+                                        th:text="#{msg.select.no.selected}">Option
+                                </option>
+                                <option th:each="el : ${allCities}"
+                                        th:value="${el.id}"
+                                        th:selected="${el.id}==${city?.id}"
+                                        th:text="${el.name}">
+                                </option>
+
+                            </select>
+                        </div>
+                        <!--category-->
+                        <div class="form-group col-xs-12 col-sm-6 col-md-2 hideOFF" >
+                            <label class="col-xs-6 col-md-1 control-label" th:text="#{category}"></label>
+                            <select name="category"
+                                    onchange="this.form.submit()"
+                                    class="selectpicker form-control form-control-lg">
+                                <option th:value="${null}" selected="true"
+                                        th:text="#{msg.select.no.selected}">Option
+                                </option>
+                                <option th:each="el : ${allCategories}"
+                                        th:value="${el.id}"
+                                        th:selected="${el.id}==${category?.id}"
+                                        th:text="${el.name}">
+                                </option>
+
+                            </select>
+                        </div>
+                        <!--count on page-->
+                        <div class="form-group col-xs-3 col-md-1">
+                            <label class="col-xs-6 col-md-1 control-label" th:text="#{msg.count.on.page}"></label>
+                            <select onchange="this.form.submit()"
+                                    th:name="countOnPage"
+                                    id="countOnPage"
+                                    class="selectpicker form-control form-control-lg">
+                                <th:block th:each="i :${new Integer[]{4,6,12,20}}">
+                                    <option th:value="${i}" th:selected="${countOnPage}==${i}"
+                                            th:text="${i}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+<!-- search result -->
+    <div class="panel panel-success ">
+        <div class="panel-body" th:with="total=${itemsPage.totalElements}">
+            <div class=" row text-justify ">
+                <div class="panel panel-body">
+                    <div th:if="${total == 0}" class="jumbotron alert alert-danger"
+                         th:text="#{msg.items.not.found}"></div>
+                    <div th:if="${total > 0}" class="alert alert-success"
+                         th:text="#{msg.search.status}+${total}">
+                    </div>
+                </div>
+                <div th:each="item:${itemsPage}">
+                    <div class="item col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                        <div class="thumbnail" >
+                            <div class="item-avatar">
+                                <img  th:if="${item?.avatarId == null }" class="img-responsive center-block" th:src="@{/images/not_available.gif}" src="http://placehold.it/150x150" alt="">
+                                <img  th:if="${item?.avatarId != null }" class="img-responsive center-block" th:src="@{/files/images/{filename}(filename=${item?.avatarId})}"  alt="">
+                            </div>
+                            <div class="caption ">
+                                <div class="info">
+                                    <div class="info"  th:with="city=${item?.city?.name}?: ''">
+                                        <div th:with="category=${item?.category?.name}?: ''">
+                                            <span th:text="${city} +'&nbsp;'+ ${category}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info item-title " >
+                                    <div class="info">
+                                        <span th:text="#{msg.item.title}+':'" class="hidden"></span>
+                                        <span><h4 th:text="${item?.name}?:''" ></h4></span>
+                                    </div>
+                                </div>
+
+                               <div class="">
+                                   <span th:text="#{price}+':'" class="hidden"></span>
+                                    <i class="fa fa-coins fa-2x" aria-hidden="true"></i>
+                                   <h4 th:text="${item?.price}!=0 ? ${item?.price} :#{msg.price.not.indicated}"></h4>
+                                </div>
+                               <div class="info">
+                                   <!--<a href="#" class="btn btn-success"><p th:text=""></p> <i class="fa fa-arrow-right"></i> </a>-->
+                                   <a href="" th:href="@{/search/items/{id}(id=${item.id})}" class="btn btn-success"
+                                      data-toggle="tooltip" th:title="#{msg.item.show}">
+                                       <i th:text="#{msg.item.show}"></i>
+                                       <i class="fa fa-arrow-right fa-1x"></i>
+                                   </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--localhost:8090/search?query=price&searchInDescription=on-->
+            <div
+                    th:replace="~{fragments/_pagination :: _pagination(${itemsPage},'search')}">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

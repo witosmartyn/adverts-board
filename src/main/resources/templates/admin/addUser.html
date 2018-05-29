@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{admin/_layout}">
+<head>
+    <title></title>
+</head>
+
+
+<body>
+    <div layout:fragment="content">
+
+        <form action="" th:action="@{/control/users/add}" th:object="${user}" method="post">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="email" class="form-control-label" th:text="#{msg.input.email}">Email</label>
+                    <input id="email" class="form-control" th:field="*{username}" th:placeholder="#{msg.input.email}"/>
+                    <div class="text text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-control-label" th:text="#{msg.input.password}">password</label>
+                    <input type="password" id="password" class="form-control" th:field="*{password}" th:placeholder="#{msg.input.password}"/>
+                    <div class="text text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                </div>
+
+    <!--roles-->
+                <div class="form-group">
+                    <th:block th:each="role : ${@availableRoles}" th:with="userRoles=${user.getAuthorities()}">
+                        <input type="checkbox"
+                               th:onchange="'checkRolesEditedUser(\'' + #{msg.required.role} + '\');'"
+                               th:name="authorities"
+                               th:checked="${user.getAuthorities().contains(role)}"
+                               th:value="${role.id}"/>
+                        <label th:text="${role.name}"></label>
+                    </th:block>
+                    <div class="text text-danger" th:if="${#fields.hasErrors('authorities')}" th:errors="*{authorities}"></div>
+
+                </div>
+    <!--accaunt-->
+                <div class="form-group">
+                    <label class="form-control-label" th:text="#{msg.account}+':'">Accaunt</label><br>
+                    <input type="checkbox"
+                           th:name="AccountNonExpired"
+                           th:checked="${user.isAccountNonExpired()}"
+                    />
+                    <label th:text="#{msg.accountNonExpired}"></label><br>
+                    <input type="checkbox"
+                           th:name="AccountNonLocked"
+                           th:checked="${user.isAccountNonLocked()}"
+                    />
+                    <label th:text="#{msg.accountNonLocked}"></label><br>
+                    <input type="checkbox"
+                           th:name="CredentialsNonExpired"
+                           th:checked="${user.isCredentialsNonExpired()}"
+                    />
+                    <label th:text="#{msg.credentialsNonExpired}"></label><br>
+                    <input type="checkbox"
+                           th:name="Enabled"
+                           th:checked="${user.isEnabled()}"
+                    />
+                    <label th:text="#{msg.enabled}"></label><br>
+
+                </div>
+    <!--submit-->
+                <div class="form-group">
+                    <input type="submit" class="btn btn-info" id="submit" th:value="#{msg.save}"/>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:spring="http://www.springframework.org/schema/security"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+>
+
+<div th:fragment="_itemFields">
+    <div class="panel-body">
+        <input type="hidden" class="form-control" th:field="*{id}"/>
+        <!--<input type="hidden" class="form-control" th:field="*{version}"/>-->
+        <label th:text="*{id != null} ? #{msg.edit}: #{msg.item.add}">Add item</label>
+    </div>
+    <!-- Title-->
+    <div
+            th:replace="fragments/_inputs :: input ('fa-address-card',#{msg.item.title}, 'name', 'text',#{msg.item.input.title}) ">
+    </div>
+    <!-- Description-->
+    <div
+            th:replace="fragments/_inputs :: input ('fa-info',#{msg.item.description}, 'description', 'textarea',#{msg.item.input.description}) ">
+    </div>
+    <!-- Category -->
+    <div
+            th:replace="~{fragments/_inputs :: _select_null (#{label.select}+' '+#{category},${item},'category',${allCategories})}">
+    </div>
+
+    <!-- Photos -->
+    <div class="row form-group">
+            <label class="col-sm-2 control-label" for="images" th:text="#{msg.input.download.images}">Download images</label>
+        <div class="col-sm-10">
+            <input type="file" multiple id="images" th:name="mpFiles"/>
+            <div class="text text-danger" th:if="${images_error}" th:text="*{images_error}"></div>
+        </div>
+    </div>
+
+    <!--contact infoo-->
+    <div>
+        <!--Location:-->
+        <div
+                th:replace="~{fragments/_inputs :: _select_null (#{label.select}+' '+#{city},${item},'city',${allCities})}">
+        </div>
+
+        <div
+            th:replace="fragments/_inputs :: input ('fa-phone',#{msg.item.phone.number}, 'phone', 'tel',#{msg.item.phone.number.type}) ">
+        </div>
+
+        <div
+            th:replace="fragments/_inputs :: input ('fa-usd',#{price}, 'price', 'price',#{item.type.price}) ">
+        </div>
+
+
+
+    </div>
+</div>
+
+
+</html>

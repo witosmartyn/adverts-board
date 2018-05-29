@@ -1,0 +1,171 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:spring="http://www.springframework.org/schema/security"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+>
+
+<div th:fragment="_scripts">
+
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous">
+    </script>
+
+    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}">
+    </script>
+    <script src="../../static/js/custom.js"
+            type="text/javascript"
+            th:src="@{/js/custom.js}">
+    </script>
+    <script src="../../static/js/notify.js" type="text/javascript"
+            th:src="@{/js/notify.js}"></script>
+    <script>
+
+
+
+
+
+        function validateForm(msg1) {
+            console.log("validate add Form");
+            var fr = document.forms["add-form"];
+            var name = fr["name"].value;
+            var descr = fr["description"].value;
+            var msg = "Field must be filled out"
+
+            if ( name.length <6) {
+                topNotyfy(msg1);
+                console.log("name is not valid");
+
+                return false;
+            }
+            if (descr.length <6) {
+                topNotyfy(msg2);
+                console.log("descr is not valid");
+
+                return false;
+            }
+
+            console.log("Success");
+            return true;
+
+
+        }
+    </script>
+<!--LOCALES-->
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('[data-toggle="tooltip"]').tooltip(
+                {
+                    animation: true,
+                    delay: {show: 100, hide: 50},
+                }
+            );
+
+            $("#locales").change(function () {
+                var selectedOption = $('#locales').val();
+                if (selectedOption != '') {
+                    var href =window.location.href;
+
+                    // window.location.replace('/?lang=' + selectedOption);
+                var newURL= replaceUrlParam(href,'lang',selectedOption)
+                    console.debug(newURL);
+                    window.location.replace(newURL);
+
+                }
+
+
+                function replaceUrlParam(url, paramName, paramValue){
+                    console.debug("url = "+url);
+                    console.debug("paramName = "+paramName);
+                    console.debug("selectedOption = "+selectedOption);
+
+                    if (paramValue == null) {
+                        paramValue = '';
+                    }
+                    var pattern = new RegExp('\\b('+paramName+'=).*?(&|$)');
+                    if (url.search(pattern)>=0) {
+                        return url.replace(pattern,'$1' + paramValue + '$2');
+                    }
+                    url = url.replace(/\?$/,'');
+                    return url + (url.indexOf('?')>0 ? '&' : '?') + paramName + '=' + paramValue;
+                }
+
+
+            });
+        });
+    </script>
+
+
+    <script>
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        // alert("token = "+token);
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+    </script>
+    <script>
+
+        $(document).ready(function () {
+
+            $("#btnSubmit").click(function (event) {
+
+                //stop submit the form, we will post it manually.
+                event.preventDefault();
+
+                fire_ajax_submit();
+
+            });
+
+        });
+
+        function fire_ajax_submit() {
+
+            // Get form
+            var form = $('#fileUploadForm')[0];
+
+            var data = new FormData(form);
+
+            data.append("CustomField", "This is some extra data, testing");
+
+            $("#btnSubmit").prop("disabled", true);
+
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: "/api/upload/multi",
+                data: data,
+                //http://api.jquery.com/jQuery.ajax/
+                //https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
+                processData: false, //prevent jQuery from automatically transforming the data into a query string
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+
+                    $("#result").text(data);
+                    console.log("SUCCESS : ", data);
+                    $("#btnSubmit").prop("disabled", false);
+
+                },
+                error: function (e) {
+
+                    $("#result").text(e.responseText);
+                    console.log("ERROR : ", e);
+                    $("#btnSubmit").prop("disabled", false);
+
+                }
+            });
+
+        }
+
+    </script>
+
+</div>
+
+
+</html>

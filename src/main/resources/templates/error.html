@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title></title>
+</head>
+
+
+<body>
+
+<div layout:fragment="content">
+
+    <div class="jumbotron">
+<div class="alert alert-warning" th:if="${flashMessge}" th:text="${flashMessge}">...</div>
+        <div>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="error-template">
+                            <h1>
+                                Oops!</h1>
+                            <h2 th:text="${error}"> </h2>
+                            <div class="error-details" th:text=" #{error.somethingwrong}">
+
+                            </div>
+                            <div class="error-actions">
+                                <a href="/" class="btn btn-primary btn-lg"><span
+                                        class="glyphicon glyphicon-home"></span>
+                                    <- Back to Home Page </a>
+                                <a th:href="'mailto:'+ #{admin.email}" class="btn btn-default btn-lg"><span
+                                        class="glyphicon glyphicon-envelope"></span>
+                                    Contact Support </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="table-responsive" >
+                <table class="table">
+                    <tr  th:if="${path}">
+                        <td>Path</td>
+                        <td class="primary" th:text="${path}"/>
+                    </tr>
+
+                    <tr  th:if="${status}">
+                        <td>Status</td>
+                        <td class="info" th:text="${status}"/>
+                    </tr>
+
+                    <tr th:if="${message}">
+                        <td>Message</td>
+                        <td class="warning"  th:text="${message}" />
+                    </tr>
+                    <tr th:if="${message1}">
+                        <td>Message1</td>
+                        <td class="warning"  th:text="${message1}" />
+                    </tr>
+
+                    <tr th:if="${error}">
+                        <td>Error</td>
+                        <td class="danger"  th:text="${error}" />
+                    </tr>
+                    <tr th:if="${error1}">
+                        <td>Error1</td>
+                        <td class="danger"  th:text="${error1}" />
+                    </tr>
+
+                    <tr sec:authorize="hasAuthority('ADMIN')">
+                        <td>Exception</td>
+                        <td class="" th:text="${exception}"/>
+                    </tr>
+
+
+
+
+
+                    <tr  sec:authorize="hasRole('ADMIN')">
+                        <td>
+                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">
+                                Show trace
+                            </button>
+                        </td>
+                        <td>
+                            <div id="demo" class="collapse in">
+                                <pre th:text="${trace}"/>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

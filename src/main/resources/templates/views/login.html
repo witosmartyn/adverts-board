@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title></title>
+</head>
+
+
+<body>
+<div layout:fragment="content"  >
+    <div class="col-xs-12  col-md-6 col-md-offset-3">
+    <div class="panel panel-info" >
+                <div class="panel-heading">
+                    <h3 class="panel-title" th:text="#{msg.login.with}"></h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <form class="form-horizontal" method="post" th:action="@{/login}">
+                        <input type="hidden"  th:name="${_csrf.parameterName}"  th:value="${_csrf.token}" />
+                       <!--if logout-->
+                        <div th:if="${logout}" class="alert alert-info" role="alert" th:text="#{msg.login.success}"></div>
+                        <!--if error-->
+                        <div th:if="${error}" class="alert alert-danger" role="alert" th:text="#{msg.login.invalid_email.password}"></div>
+
+                    <div class="form-group required">
+                        <label for="email" class="col-sm-2 control-label" th:text="#{msg.label.email}">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" autofocus id="email" th:placeholder="#{msg.login.email}" name="username"/>
+                        </div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="password" class="col-sm-2 control-label" th:text="#{msg.label.password}" >Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="password" th:placeholder="#{msg.login.password}" name="password"/>
+                        </div>
+                    </div>
+                          <div class="form-group required">
+                        <div    class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-info">
+                                    <i class="fa fa-sign-in-alt"></i>
+                                    <t th:text="#{msg.signin}"></t>
+                                </button>
+                            &nbsp;
+                        </div>
+                    </div>
+                    </form>
+                </div>
+
+
+                <div class="panel-footer text-center">
+                        <a href="/register" >
+                            <span ><i class="fa fa-user"></i></span>
+                            <span th:text="#{msg.signup}"></span>
+                        </a>
+                </div>
+            </div>
+            </div>
+
+</div>
+</body>
+</html>

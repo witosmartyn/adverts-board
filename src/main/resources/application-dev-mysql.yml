@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    name: dev_MYSQL
+    password: root
+    platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    url: jdbc:mysql://localhost/abs?useSSL=false&useUnicode=false&characterEncoding=UTF-8
+    username: root
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  devtools:
+     livereload:
+       enabled: true
+     restart:
+       enabled: true
+  thymeleaf:
+    cache: false
+##### Log level  TRACE ####
+logging:
+    level:
+        org:
+            hibernate:
+              SQL:  info
+
+              type:
+                descriptor:
+                  sql: info
+            springframework:
+                web: info
+                transaction: info
+            thymeleaf: info
+        com.witosmartyn.app:
+            controllers: debug
+            config: debug
+            services: debug
+        root: info
+    pattern:
+#       console: "%d %-5level %logger : %Msg%n"
+       file: "%d %-5level [%thread] %logger : %Msg%n"
+    config:
+    file: logs/app.log
+
+#debug: true
+

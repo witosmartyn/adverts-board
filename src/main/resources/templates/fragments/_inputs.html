@@ -1,0 +1,92 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<th:block th:fragment="input (icon,label, fieldName, type,placeholder)">
+    <div th:with="valid=${!#fields.hasErrors(fieldName)}"
+         th:class="${'row form-group ' + (valid ? '' : ' has-error')}"
+         class="form-group" th:classappend="${T(com.witosmartyn.app.config.constants.ItemConfig).
+                                            __${fieldName.toUpperCase()+'_REQUIRED'}__}?'required':''">
+
+        <div class="col-sm-2">
+            <i th:class="fa" th:classappend="${icon}"></i>
+            <span>
+                    <label class=" control-label" th:text="${label}">Label </label>
+                </span>
+        </div>
+        <div class="col-sm-10">
+            <div th:switch="${type}">
+                <input th:case="'text'"
+                       class="form-control"
+                       type="text"
+                       th:field="*{__${fieldName}__}"
+                       th:placeholder="${placeholder}"/>
+                <input th:case="'tel'"
+                       class="form-control"
+                       type="tel"
+                       pattern="\d*"
+                       minlength="8"
+                       maxlength="14"
+
+                       th:field="*{__${fieldName}__}"
+                       th:placeholder="${placeholder}"/>
+                <input th:case="'price'"
+                       class="form-control"
+                       type="number"
+                       step="0.1"
+                       min="0"
+                       th:default="0"
+                       th:max="999999999"
+                       required
+
+                       th:field="*{__${fieldName}__}"
+                       th:placeholder="${placeholder}"/>
+                <textarea th:case="'textarea'"
+                          class="form-control"
+                          type="text"
+                          th:field="*{__${fieldName}__}"
+                          th:placeholder="${placeholder}"></textarea>
+            </div>
+
+            <th:block th:if="${!valid}">
+                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                <span class="text-danger help-inline" th:errors="*{__${fieldName}__}">Error</span>
+            </th:block>
+        </div>
+    </div>
+</th:block>
+
+
+<div th:fragment="_select_null (label,obj,fieldName,list)" th:with="field=${obj[fieldName]}">
+    <div th:with="valid=${!#fields.hasErrors(fieldName)}"
+         th:class="${'row form-group' + (valid ? '' : ' has-error')}"
+         class="form-group" th:classappend="${T(com.witosmartyn.app.config.constants.ItemConfig).
+         __${fieldName.toUpperCase()+'_REQUIRED'}__}?'required':''">
+        <label class="col-sm-2 control-label" th:text="${label}">Label </label>
+        <div class="col-sm-5">
+            <select class="selectpicker form-control form-control-lg" th:id="${fieldName}" th:name="${fieldName}">
+                <th:block th:if="${true}">
+
+
+                </th:block>
+                <option th:value="${null}" selected="true"
+                        th:text="#{msg.select.no.selected}">Option
+                </option>
+                <option th:each="el : ${list}"
+                        th:text="${el?.name}"
+                        th:selected="${ (el?.id eq (__${field?.id}__))} ? true : false"
+                        th:value="${el?.id}">
+                    option
+                </option>
+            </select>
+        </div>
+        <th:block th:if="${!valid}">
+            <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            <span class="text-danger help-inline" th:errors="*{__${fieldName}__}">Error</span>
+        </th:block>
+    </div>
+
+</div>
+
+</html>

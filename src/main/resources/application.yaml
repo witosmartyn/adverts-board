@@ -1,0 +1,39 @@
+server:
+  port: 8090
+  error:
+    #stacktrace in page error
+    include-stacktrace: always
+  session:
+    timeout: 36000
+security:
+  ignored: "/readme.txt"
+  sessions: stateless
+spring:
+  profiles:
+    active: heroku-mysql
+  messages:
+    basename: i18n
+    cache-seconds: 5
+    encoding: UTF-8
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-timeout: 10000
+      maximum-pool-size: 5
+      minimum-idle: 3
+      pool-name: HikariConnectionPool
+    data: "classpath:import.sql"
+  jta:
+      log-dir: logs/jta.log
+  jpa:
+      show-sql: true
+      generate-ddl: true
+      hibernate:
+        ddl-auto: 'update'
+      properties:
+        hibernate:
+          enable_lazy_load_no_trans: true
+  http:
+    multipart:
+      max-request-size: 3000KB
+      max-file-size: 1000KB

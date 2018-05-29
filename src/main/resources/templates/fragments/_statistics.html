@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="_statistics">
+
+    <div id="items_statistics">
+        <span>
+        <i class="fa fa-info orange"></i>
+            <span class="text text-warning hidden-sm"
+                  th:text="#{msg.items.amount.all}"></span>
+        <span class="text text-success"
+             th:text="${@statisticsBean.advertsAmount ?:'unknown'}"></span>
+        </span>
+
+    </div>
+    <div id="users_statistics" >
+        <span>
+        <i class="fa fa-user green"></i>
+            <span class="text text-warning  hidden-sm"
+                  th:text="#{msg.users.amount.registered}"></span>
+       <span class="text text-success"
+             th:text="${@statisticsBean.usersRegisteredAmount ?:'unknown'}" ></span>
+        </span>
+
+    </div>
+</div>
+
+</html>

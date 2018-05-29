@@ -1,0 +1,131 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:spring="http://www.springframework.org/schema/security"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+>
+
+<div th:fragment="_navbar">
+
+    <!-- Sidebar -->
+    <nav id="admin-navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div><a class="navbar-brand" href="/">
+                <span class="logo-begin">Ad</span><span class="logo-end">Board</span>
+            </a>
+            </div>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse text-center">
+            <!--left-->
+            <ul class="nav navbar-nav navbar-left navbar-user">
+                <li class="dropdown user-dropdown">
+                    <div th:replace="fragments/_lang"></div>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-left navbar-user">
+                <li  class="dropdown user-dropdown  green">
+                    <a href="/search" data-toggle="tooltip" data-placement="bottom" th:with="t=#{msg.action.find}">
+                       <i class="fa fa-search fa-lg orange fa-2x "></i>
+                        <text class="hidden-sm hidden-md hidden-lg" th:text="${t}"></text>
+                    </a>
+                </li>
+            </ul>
+            <ul  class="nav navbar-nav navbar-left navbar-user ">
+                <li class="margin-05x ">
+                    <div th:replace="fragments/_statistics"></div>
+                </li>
+            </ul>
+            <div  sec:authorize="!isAuthenticated()">
+                <div class="container">
+                    <ul class="nav navbar-nav navbar-right navbar-user">
+                        <li>
+                            <a href="/register" data-toggle="tooltip" th:title="#{msg.signup}"
+                               data-placement="bottom">
+                                <span><i class="fa fa-user"></i></span>
+                                <span class="hidden-sm " th:text="#{msg.signup}"></span>
+                            </a>
+                        </li>
+
+
+                        <li >
+                            <a th:href="@{/login}" data-toggle="tooltip" th:title="#{msg.signin}"
+                               data-placement="bottom">
+                                <span><i class="fa fa-sign-in-alt"></i></span>
+                                <span class="hidden-sm" th:text="#{msg.signin}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div sec:authorize="isAuthenticated()">
+
+                <!--right-->
+                <ul class="nav navbar-nav navbar-right navbar-user">
+                    <li th:with="t=#{msg.item.add}" >
+
+
+                        <a th:href="@{/profile/items/new}" data-toggle="tooltip" th:title="${t}"
+                           data-placement="bottom" class="" >
+                            <i class="fa fa-plus-square fa-lg green fa-2x zoom"></i>
+                            <text class=" hidden-md hidden-sm" th:text="${t}"></text>
+                        </a>
+                    </li>
+
+
+                    <li class="control-panel" sec:authorize="hasAuthority('ADMIN')">
+                        <a th:href="@{/control}" data-toggle="tooltip" th:title="#{msg.controlpanel}"
+                           data-placement="bottom">
+                            <i class="fa fa-cog fa-lg"></i>
+                            <span class="hidden-sm hidden-md hidden-lg" th:text="#{msg.controlpanel}"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/profile">
+                                <!--<i class="fab fa-adversal fa-lg green"></i>-->
+                                <span class="badge badge-orange" th:text="${#session.getAttribute('userItemsCount')}"></span>
+                                <span class="hidden-sm hidden-md "  th:text="#{msg.user.myitems}"></span>
+
+                        </a>
+                    </li>
+                    <li class="dropdown user-dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <i
+                                sec:authentication="name">Username</i><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/profile"><i class="fa fa-user"></i> Profile</a></li>
+
+                            <!--<li class="divider"></li>-->
+
+                        </ul>
+                    </li>
+
+                    <li class="power-off-buttons zoom">
+                        <form th:action="@{/logout}" method="post">
+                            <input class="form-control mr-sm-2" type="hidden"/>
+                            <button id="logout-button" type="submit" class="btn btn-link" data-toggle="tooltip"
+                                    th:title="#{msg.signout}" data-placement="bottom">
+                                <i class="fa fa-power-off whitw"></i>
+                                <span class="hidden-lg hidden-md hidden-sm" th:text="#{msg.signout}"></span>
+                            </button>
+                        </form>
+                    </li>
+
+
+                </ul>
+            </div><!-- /.isAuthenticated -->
+        </div><!-- /.navbar-collapse -->
+    </nav>
+
+</div>
+</html>
+

@@ -1,0 +1,31 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:spring="http://www.springframework.org/schema/security"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+>
+
+<div th:fragment="_itemInfo">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-2 hidden" data-toggle="tooltip"  th:title="#{msg.views}">
+                <i class="fa fa-eye" th:alt="views"></i>
+                <div th:text="${'23'}"></div>
+            </div>
+
+            <div class="col-xs-5">
+                <div th:text="#{msg.item.created}+': '+${item.created}"></div>
+            </div>
+            <div class="col-xs-5">
+                <div th:text="#{msg.item.updated}+': '+${item.updated}"></div>
+            </div>
+            <div class="col-xs-3">
+                <div th:text="#{msg.identifier}+': '+${item.id}"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</html>

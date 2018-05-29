@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:spring="http://www.springframework.org/schema/security"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title></title>
+</head>
+
+
+<body>
+<div layout:fragment="content">
+    <div  th:if="${item.id != null}">
+        <div th:replace="fragments/_itemInfo"></div>
+    </div>
+
+    <form id="add-form" action="#"  th:action="@{/profile/items/new}" th:object="${item}" method="post" enctype="multipart/form-data">
+        <div th:replace="user/_itemFields"></div>
+
+        <div class="form-group">
+            <a th:href="@{/profile}" class="btn btn-danger" th:text="#{msg.cancel}"></a>
+
+            <input  type="submit"  class="btn btn-success" id="submit" th:value="#{msg.save}"/>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

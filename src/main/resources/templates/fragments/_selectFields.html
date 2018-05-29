@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<div th:fragment="_select_null (allCategories)">
+    <select class="selectpicker" id="category" name="category" th:with="category=*{category}">
+        <option th:value="${null}" selected="true"
+                th:text="#{msg.without.category}">No category
+        </option>
+        <option th:each="cat : ${allCategories}"
+                th:text="${cat.name}"
+                th:selected="${(item.category ne null) && (cat.id eq item.category.id)} ? true : false"
+                th:value="${cat.name}">
+            category
+        </option>
+    </select>
+</div>
+<div th:fragment="_cities_null(list)">
+    <select class="selectpicker" id="cities" name="city" >
+        <option th:value="${null}" selected="true"
+                th:text="#{msg.without.city}">No city
+        </option>
+        <option th:each="el : ${list}"
+                th:text="${el.name}"
+                th:selected="${(item.city ne null) && (el.id eq item.city.id)} ? true : false"
+                th:value="${el.id}">
+            category
+        </option>
+    </select>
+</div>
+
+<div th:fragment="_select_required(allCategories)">
+    <select class="selectpicker" data-style="btn-info" id="category" name="category" th:with="category=*{category}">
+        <option value=""
+                th:disabled="disabled"
+                selected="true"
+                th:text="${category ne null}? ${category.name}:#{msg.category.select}">
+            Select category
+        </option>
+        <option th:each="cat : ${allCategories}"
+                th:text="${cat.name}"
+                th:selected="${(item.category ne null) && (cat.id eq item.category.id)} ? true : false"
+                th:value="${cat.name}">category
+        </option>
+    </select>
+</div>
+
+</html>

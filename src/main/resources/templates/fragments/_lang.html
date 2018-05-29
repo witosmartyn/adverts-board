@@ -1,0 +1,14 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="_lang">
+
+    <select id="locales" class="selectpicker" data-toggle="tooltip" data-placement="bottom"  th:title="#{msg.select.language}">
+        <option th:selected="false" data-hidden="true" hidden th:text="#{${'lang.' + #locale}}"></option>
+        <option th:selected="${#locale.language eq 'en'}" value="en" th:text="#{lang.en}"></option>
+        <option th:selected="${#locale.language eq 'ru'}" value="ru" th:text="#{lang.ru}"></option>
+    </select>
+
+</div>
+
+</html>

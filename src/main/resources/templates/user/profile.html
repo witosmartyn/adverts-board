@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{fragments/main_layout}">
+<body>
+<div layout:fragment="content">
+    <label id="labelmy" for="items-wrapper" th:text="#{msg.user.myitems}+':'"></label>
+     <spn><label th:text="${items.totalElements}"></label></spn>
+
+    <div class="row">
+        <div class="col-xs-4 ">
+            <div class="btn-toolbar ">
+                <div th:if="${items.totalElements}!=0">
+                    <div class="btn-group  btn-group-xs ">
+
+                        <form style=" display:inline;" th:action="@{/profile/items/deleteAll}" id="formPostDeleteAll" method="POST">
+                            <input type="hidden" th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}"/>
+                            <button type="submit" class="btn btn-danger"
+                                    data-toggle="tooltip"
+                                    th:title="#{msg.items.delete.all}"
+                                    th:text="#{msg.items.delete.all}">
+                                <i class="fa fa-trash fa-2x"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+
+        <div>
+            <form th:action="@{/profile/items}" id="searhGetForm">
+                <div class="form-group col-xs-12 col-sm-6 col-md-2">
+                    <label class="col-xs-6 col-md-1 control-label" th:text="'sortBy'">Label </label>
+                    <select onchange="this.form.submit()"
+                            name="sortBy"
+                            class="selectpicker form-control form-control-lg">
+                        <option th:each="field:${T(com.witosmartyn.app.config.enums.ItemField).values()}"
+                                th:text="${field}"
+                                th:selected="${field} eq ${sortBy}"
+                                th:value="${field}"
+                        ></option>
+                    </select>
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-2">
+                    <label class="col-xs-6 col-md-1 control-label" th:text="'orderBy'"></label>
+                    <select onchange="this.form.submit()"
+                            name="orderBy"
+                            class="selectpicker form-control form-control-lg">
+                        <option th:each="direction:${T(org.springframework.data.domain.Sort.Direction).values()}"
+                                th:text="${direction}"
+                                th:selected="${direction} eq ${orderBy}"
+                                th:value="${direction}"
+                        ></option>
+                    </select>
+                </div>
+                <!--count on page-->
+                <div class="form-group col-xs-3 col-md-1">
+                    <label class="col-xs-6 col-md-1 control-label" th:text="'countOnPage'"></label>
+                    <select onchange="$('#searhGetForm').submit()"
+                            th:name="countOnPage"
+                            id="countOnPage"
+                            class="selectpicker form-control form-control-lg">
+                        <th:block th:each="i :${new Integer[]{4,6,12,20}}">
+                            <option th:value="${i}" th:selected="${countOnPage}==${i}"
+                                    th:text="${i}"></option>
+                        </th:block>
+                    </select>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+<div th:if="${items.totalElements}==0">
+    <div class="jumbotron">
+        <div class="text-center">
+            <p th:text="#{msg.user.no.items}"></p>
+            <div class="padding-1x">
+                <div class="btn-group">
+
+                    <a th:href="@{/profile/items/new}"  class="btn btn-success btn-lg" data-toggle="tooltip" th:title="#{msg.item.add}"
+                       data-placement="bottom">
+                        <i class="fa fa-plus-square "></i>
+                        <t class="" th:text="#{msg.item.add}"></t>
+                    </a>
+                </div>
+            </div>
+            <div class="padding-1x">
+                <div class="btn-group">
+                    <a href="/search" class="btn btn-primary btn-lg">
+                        <i class="fa fa-search"></i>
+                        <t class="" th:text="#{msg.action.search.on.site}"></t>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+    <div id="items-wrapper" th:each="item:${items}">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+
+                <a href="" th:href="@{/profile/items/{id}(id=${item.id})}" target="_self" th:text="${item?.name}"></a>
+
+            </div>
+            <div class="panel-body">
+                <a href="" th:href="@{/profile/items/{id}(id=${item.id})}" target="_self">
+                    <div class="row">
+                        <div class="col-xs-10 col-sm-4">
+                            <div class="thumbnail" >
+                                <img th:if="${item?.avatarId == null }" class="img-responsive" th:src="@{/images/not_available.gif}" src="http://placehold.it/200x200" alt="">
+                                <img th:if="${item?.avatarId != null }" class="img-responsive" th:src="@{/files/images/{filename}(filename=${item?.avatarId})}" style="max-height:215px; max-width: 220px;" alt="">
+                                <div class="caption">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-4" th:with="dSize=${#strings.length(item.description)}">
+                            <div class="jumbotron">
+                                <p th:if="${dSize> 64}"
+                                   th:text="${#strings.substring(item.description,0,63)+'...'  }"></p>
+                                <p th:if="${dSize< 65}" th:text="${item.description}"></p>
+                                <!--<p th:checked="${shortDescription}"></p>-->
+
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 col-sm-4" th:with="dSize=${#strings.length(item.description)}">
+                            <div class="jumbotron">
+                                <!--<p th:checked="${shortDescription}"></p>-->
+                                <h4 th:text="'$ '+ ${item?.price}" class="text text-danger">$00.00</h4>
+
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="btn-toolbar ">
+                                <div class="btn-group  btn-group-xs ">
+                                    <!--DELETE EDIT-->
+                                    <a href="" th:href="@{/profile/items/{id}/edit(id=${item.id})}"
+                                       class="btn btn-warning"
+                                       data-toggle="tooltip" th:title="#{msg.edit}"><i class="fa fa-edit fa-3x"></i></a>
+                                    <!--DELETE VIEW-->
+                                    <a href="" th:href="@{/profile/items/{id}(id=${item.id})}" class="btn btn-success"
+                                       data-toggle="tooltip" th:title="#{msg.item.show}"><i
+                                            class="fa fa-search-plus fa-3x"></i></a>
+                                    <!--DELETE Btn-->
+                                    <form style=" display:inline;" th:action="@{/profile/items/delete}" id="formPostDeleteByID" method="POST">
+                                        <input type="hidden" th:name="${_csrf.parameterName}"
+                                               th:value="${_csrf.token}"/>
+                                        <input name="id" type="hidden" th:value="${item.id}"/>
+                                        <button type="submit" class="btn btn-danger" data-toggle="tooltip"
+                                                th:title="#{msg.delete}">
+                                            <i class="fa fa-trash fa-2x"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="panel-footer">
+                <div th:replace="fragments/_itemInfo"></div>
+            </div>
+        </div>
+    </div>
+    <div
+            th:replace="~{fragments/_pagination :: _pagination(${items},'profile')}">
+    </div>
+</div>
+</body>
+</html>

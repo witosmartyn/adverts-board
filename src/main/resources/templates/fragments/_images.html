@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:spring="http://www.springframework.org/schema/security"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+>
+
+<th:block th:fragment="_images (imgs)">
+    <div class="row">
+        <div th:each="el : ${imgs}">
+
+            <div class="col-md-4">
+                <div class="thumbnail" th:with="src_img=@{/files/images/{filename}(filename=${el})}">
+                    <a href="#" th:href="${src_img}" target="_blank">
+                    <img class="img-responsive" th:src="${src_img}"
+                         src="http://placehold.it/100x100" alt=""/>
+                    <div class="caption">
+                        <p></p>
+                        <!--<a href="#"  th:href="${src_img}">download</a>-->
+                    </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-info" th:if="${#lists.size(imgs)==0}" th:text="#{msg.item.no_images}"></div>
+
+
+</th:block>
+
+
+</html>

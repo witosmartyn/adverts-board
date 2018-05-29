@@ -1,0 +1,26 @@
+spring:
+    datasource:
+      platform: org.hibernate.dialect.MySQL5InnoDBDialect
+      url: jdbc
+      username:  
+      password:  
+    jpa:
+      show-sql: false
+      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+logging:
+    level:
+        org:
+            hibernate:
+              SQL: error
+              type:
+                descriptor:
+                  sql: error
+            springframework:
+                web: info
+                transaction: error
+            thymeleaf: error
+        com.witosmartyn.app:
+            controllers: error
+            config: error
+            services: error
+        root: info

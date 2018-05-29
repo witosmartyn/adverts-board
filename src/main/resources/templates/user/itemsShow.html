@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:spring="http://www.springframework.org/schema/security"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title></title>
+</head>
+
+
+<body>
+<div layout:fragment="content" th:object="${item}" th:with="imgs=${imageStringList}">
+
+    <div class="panel panel-warning">
+        <div class="panel-heading" th:text="${item?.name}">s</div>
+        <div class="panel-body">
+            <!--<div th:replace="user/_item_info">-->
+            <div class="jumbotron">
+                <p th:text="${item?.description}"></p>
+            </div>
+            <div class="jumbotron">
+                <p th:text="${item?.phone}"></p>
+            </div>
+            <div th:if="${imageStringList ne null}"
+                    th:replace="~{fragments/_images :: _images (${imageStringList})}">
+            </div>
+            <div class="panel-footer">
+                <a href="#" class="btn btn-info"><i class="">Add comment</i></a>
+            </div>
+            <!--<div th:replace="fragments/_itemInfo"></div>-->
+
+
+    </div>
+</body>
+</html>

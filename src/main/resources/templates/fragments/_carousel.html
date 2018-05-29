@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:spring="http://www.springframework.org/schema/security"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+>
+
+<th:block th:fragment="_carousel (imgs)">
+<div th:with="isEmpty=${#lists.isEmpty(imgs)}">
+    <div class="alert alert-info" th:if="${isEmpty}">
+        <p th:text="#{msg.item.no_images}"></p>
+        <img class="center-block" th:src="@{/images/not_available.gif}"/>
+    </div>
+    <!--<div th:each="el : ${imgs}"></div>-->
+    <div th:if="${not isEmpty}">
+    <div class="alert alert-info"  th:text=" #{msg.images.count}+' '+${#lists.size(imgs)}"></div>
+
+        <div  id="carousel" class="carousel slide " data-ride="carousel"> <!--style in line for example-->
+            <!--indiactors-->
+            <ol class="carousel-indicators">
+                <th:block th:each="element, rowStat : ${imgs}">
+                    <li data-target="#myCarousel" th:attr="data-slide-to=${rowStat.index}" th:classappend="${rowStat.first} ? 'active':''" ></li>
+                </th:block>
+            </ol>
+            <!--slides-->
+            <div class="carousel-inner">
+                <th:block th:each="element, rowStat : ${imgs}" th:with="src_img=@{/files/images/{filename}(filename=${element})}">
+                    <div class="item" th:classappend="${rowStat.first} ? 'active':''">
+                        <img  style="max-height:500px;max-width:500px;"  class="img-responsive center-block" th:src="${src_img}">
+                        <div class="carousel-caption"><h5    th:text="${rowStat.index}"></h5></div>
+                    </div>
+                </th:block>
+
+            </div>
+            <!--arrow to switch slides-->
+            <a href="#carousel" class="left carousel-control" data-slide="prev">
+                <span style="" class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a href="#carousel" class="right carousel-control" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div>
+    </div>
+    </div>
+
+</th:block>
+
+
+</html>

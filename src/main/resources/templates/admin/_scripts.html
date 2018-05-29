@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<div  th:fragment="_scripts">
+<!--DataTable interactive lib-->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+<!--DataTable interactive-->
+    <script>$(document).ready(function () {
+        // alert("DataTable interaction");
+        $('#user-table').DataTable();
+    });</script>
+
+
+
+    <!--checkRolesEditedUser-->
+    <script>
+        function checkRolesEditedUser(msg) {
+            console.log("checkUserEditForm");
+            if (!$('input[name=authorities]:checked').length > 0) {
+                $('#submit').prop('disabled', true);
+
+                topNotyfy(msg)
+                // $.notify(Msg, {
+                //     color: "#fff",
+                //     background: "#D44950",
+                //     animationType: "fade",
+                //     delay: 2500,
+                //     verticalAlign: "top"
+                // });
+
+                console.log("UserEditForm is not valid");
+                return false;
+            }
+            console.log("checkSuccess");
+            $('#submit').prop('disabled', false);
+            return true;
+
+
+        }
+    </script>
+
+</div>
+
+
+
+</html>

@@ -1,0 +1,120 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<div th:fragment="_pagination (itemsPage,urlPart)">
+    <ul class="nav nav-pills center-block">
+        <th:block th:if="${itemsPage.totalPages > 1}">
+            <nav class="text-center">
+                <ul class="pagination pagination">
+                    <th:block>
+                        <li>
+                            <a th:href="@{/__${urlPart}__/(
+                             query=${query},
+                             page=${0},
+                             toPrice=${toPrice},
+                             fromPrice=${fromPrice},
+                             orderBy=${orderBy},
+                             sortBy=${sortBy},
+                             city=${city?.id},
+                             category=${category?.id},
+                             searchInDescription=${searchInDescription},
+                             countOnPage=${countOnPage}
+                            )}" data-toggle="tooltip" title="first">
+                                <i class="glyphicon glyphicon-backward "></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="${not itemsPage.first} ?@{/__${urlPart}__/
+                            (
+                             query=${query},
+                             page=${currentPage-1},
+                             toPrice=${toPrice},
+                             fromPrice=${fromPrice},
+                             orderBy=${orderBy},
+                             sortBy=${sortBy},
+                             city=${city?.id},
+                             category=${category?.id},
+                             searchInDescription=${searchInDescription},
+                             countOnPage=${countOnPage}
+                             )}"
+                               data-toggle="tooltip" title="previous">
+                                <i class="glyphicon glyphicon-chevron-left "></i>
+                            </a>
+                        </li>
+                    </th:block>
+                    <li class="nav-item" th:classappend="${currentPage==i}  ? 'active':''"
+                        th:each="i:${#numbers.sequence(0,itemsPage.totalPages-1)}">
+
+                        <a th:if="${currentPage==i}" th:text="${i}" class="nav-link" href="javascript:void(0);">
+                        </a>
+                        <!--work fine-->
+                        <a class="nav-link" th:if="${currentPage!=i}"
+                            th:href="@{/__${urlPart}__
+                            (
+                             query=${query},
+                             page=${i},
+                             toPrice=${toPrice},
+                             fromPrice=${fromPrice},
+                             orderBy=${orderBy},
+                             sortBy=${sortBy},
+                             city=${city?.id},
+                             category=${category?.id},
+                             searchInDescription=${searchInDescription},
+                             countOnPage=${countOnPage}
+                            )
+                            }"
+                           th:text="${i}">
+                        </a>
+
+                    </li>
+                    <th:block>
+                        <li>
+                            <a th:href="${ not itemsPage.last}?@{/__${urlPart}__/
+                            (
+                             query=${query},
+                             page=${currentPage+1},
+                             toPrice=${toPrice},
+                             fromPrice=${fromPrice},
+                             orderBy=${orderBy},
+                             sortBy=${sortBy},
+                             city=${city?.id},
+                             category=${category?.id},
+                             searchInDescription=${searchInDescription},
+                             countOnPage=${countOnPage}
+                            )}"
+                               th:disabled="${currentPage == itemsPage.totalPages-1}"
+                               data-toggle="tooltip" title="next">
+                                <i class="glyphicon glyphicon-chevron-right"></i>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a th:href="@{/__${urlPart}__/
+                            (
+                             query=${query},
+                             page=${itemsPage.totalPages-1},
+                             toPrice=${toPrice},
+                             fromPrice=${fromPrice},
+                             orderBy=${orderBy},
+                             sortBy=${sortBy},
+                             city=${city?.id},
+                             category=${category?.id},
+                             searchInDescription=${searchInDescription},
+                             countOnPage=${countOnPage}
+                            )
+                            }" data-toggle="tooltip"
+                               title="last">
+                                <i class="glyphicon glyphicon-forward"></i>
+                            </a>
+                        </li>
+                    </th:block>
+                </ul>
+            </nav>
+
+        </th:block>
+
+    </ul>
+</div>
+</html>

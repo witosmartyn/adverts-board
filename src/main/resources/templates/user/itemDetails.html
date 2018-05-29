@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:spring="http://www.springframework.org/schema/security"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{fragments/main_layout}">
+<head>
+    <title></title>
+</head>
+
+
+<body>
+<div layout:fragment="content" th:object="${item}">
+<div class="container-fluid">
+    <row class="col-xs-12">
+        <!--carousel-->
+        <div th:if="${imageStringList ne null}"
+             th:replace="~{fragments/_carousel :: _carousel (${imageStringList})}">
+        </div>
+    </row>
+</div>
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-3">
+                <div class="list-group ">
+                    <a href="#" class="btn btn-primary hide" >Message </a>
+                    <h3 th:text="#{msg.item.phone.number}"></h3>
+                    <h4 th:text="*{!phone?.equals('')} ? *{phone} :''+ #{msg.non.specified}"></h4>
+                    <h3 th:text="#{item.category}"></h3>
+                    <h4 th:text="*{category} ? *{category?.name} :  #{category}+' '+#{msg.select.no.selected}"></h4>
+
+                    <h3 th:text="#{msg.location}"></h3>
+                    <h4 th:text="*{city} ? *{city?.name} : #{city}+' '+#{msg.select.no.selected}"></h4>
+
+                </div>
+            </div>
+            <!-- /.col-lg-3 -->
+
+            <div class="col-lg-5">
+
+                <div class="card mt-4">
+
+                    <div class="card-body">
+
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title" th:text="*{name}"></h3>
+                        <h4 th:text="'$ '+ *{price}">$00.00</h4>
+                        <p class="card-text" th:text="*{description}"></p>
+
+                        <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+                        4.0 stars
+                    </div>
+                </div>
+
+
+                <div class="card card-outline-secondary my-4 hidden">
+                    <div class="card-header">
+                        Product Comments
+                    </div>
+                    <div class="card-body">
+                        <p>This will be comments.</p>
+                        <small class="text-muted">Posted by Anonymous on 10/5/17</small>
+                        <hr>
+                        <!--<a href="#"  class="btn btn-primary mute disabled " disabled>Comments not availible now </a>-->
+
+                    </div>
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.col-lg-9 -->
+
+        </div>
+
+    </div>
+    <!-- /.container -->
+</div>
+</body>
+</html>

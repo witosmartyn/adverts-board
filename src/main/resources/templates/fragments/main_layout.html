@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${pageTitle}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="shortcut icon" type="image/png" href="../../static/images/favicon.png" th:href="@{/images/favicon.png}">
+    <div th:replace="fragments/_stylesheet"></div>
+</head>
+<body>
+
+<div th:replace="fragments/_navbar"></div>
+
+<div th:replace="fragments/_banners::top"></div>
+
+<!--<div class="container-fluid">-->
+<div class="container">
+
+    <div class="row">
+
+        <!--<div th:replace="fragments/_banners::left"></div>-->
+
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div id="content" class="container-fluid ">
+                <div id="flash-messages">
+                    <div class="alert alert-danger" th:if="${danger}"><h1 th:text="${danger}"></h1></div>
+                    <div class="alert alert-warning" th:if="${warning}"><h2 th:text="${warning}"></h2></div>
+                    <div class="alert alert-success" th:if="${success}">
+                        <h3 th:text="${success}"></h3>
+                    </div>
+                    <div class="alert    alert-info" th:if="${info}"><h3 th:text="${info}"></h3></div>
+                </div>
+
+                <div layout:fragment="content">
+                    content
+                </div>
+            </div>
+        </div>
+
+        <!--<div th:replace="fragments/_banners::right"></div>-->
+
+        <div th:replace="fragments/_banners::bottom"></div>
+
+        <!--<div th:replace="fragments/_statistics"></div>-->
+        <!--<div class="margin-1x">-->
+            <!--<div th:replace="fragments/_statistics"></div>-->
+        <!--</div>-->
+
+    </div>
+</div>
+
+<div th:replace="fragments/_footer"></div>
+<div th:replace="fragments/_scripts"></div>
+</body>
+</html>

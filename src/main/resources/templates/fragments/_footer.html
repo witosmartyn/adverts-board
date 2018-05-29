@@ -1,0 +1,25 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:fragment="footer" class="footer">
+
+
+    <div class="margin-1x">
+        <div class="col- text-center center-block" sec:authorize="isAuthenticated()">
+
+            <a th:href="#{admin.facebook}"><i id="social-fb" class="fa fa-facebook-square fa-3x zoom"></i></a>
+            <a th:href="'mailto:'+ #{admin.email}"><i id="social-em"
+                                                      class="fa fa-envelope-square fa-3x zoom"></i></a>
+        </div>
+        <div class="text-center center-block">
+            <div th:text="#{admin.developed.by} +' '+ #{admin.firstname} +' '+ #{admin.lastname}"></div>
+            <div th:text="'Copyright &copy;' + #{admin.developed.year} +' '+ #{admin.developed.rights} "></div>
+            <div>&nbsp;</div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

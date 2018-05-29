@@ -1,0 +1,46 @@
+/*  ###### banner ###### */
+#top-banner {
+    background:url('../../images/bannerT.jpg') no-repeat 0 0;
+    background-size:cover;
+    min-height:140px;
+    padding:15px 0 0 0;
+    margin-top: 52px;
+    color: rgba(255, 255, 0, 0.75);
+
+}
+#right-banner {
+    background-color: rgba(255, 251, 9, 0.42);
+    min-height: 500px;
+    max-height: 80%;
+    /*position: fixed;*/
+
+
+}
+#left-banner {
+    min-height: 500px;
+    max-height: 80%;
+    /*position: fixed;*/
+
+}
+#bottom-banner {
+    /*background:url('../images/CC-Catersource-AnimatedBannerAd.gif') no-repeat 0 0;*/
+    /*background-size:cover;*/
+    min-height:90px;
+    max-width:  100%;
+    margin-top: -75px;
+    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 92px;
+}
+.banner{
+    background-color: rgba(102, 95, 22, 0.18);
+    background-size:cover;
+}
+
+.banner-wrapper-vertical{
+    background-size:cover;
+    padding-right: 0;
+     padding-left: 0;
+    font-size: 3px;
+    color: #c7a200;
+}

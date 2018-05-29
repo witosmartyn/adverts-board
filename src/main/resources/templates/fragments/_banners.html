@@ -1,0 +1,113 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:spring="http://www.springframework.org/schema/security"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+>
+
+
+<div th:fragment="top">
+    <div id="top-banner" class="banner text-center" sec:authorize="!hasAuthority('ADMIN')">
+        <div class="container">
+            <h1 th:text="#{msg.greeting}"><span class="logo-begin">
+                    Ad</span>
+                <span class="logo-end">Board</span></h1>
+            <p></p>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="left">
+    <div class="col-sm-1 hidden-xs hidden-sm banner-wrapper-vertical">
+        <div id="left-banner" class="banner" sec:authorize="isAuthenticated()and!hasAuthority('ADMIN')">
+            <img class="img-responsive" src="/static/images/r4.png" th:src="@{/images/r4.png}">
+            <br>
+            <img class="img-responsive" src="/static/images/r3.png" th:src="@{/images/r3.png}">
+            <br>
+            <img class="img-responsive" src="/static/images/r6.png" th:src="@{/images/r5.png}">
+            <br>
+            <img class="img-responsive" src="/static/images/r4.png" th:src="@{/images/r4.png}">
+            <br>
+            <img class="img-responsive" src="/static/images/r1.png" th:src="@{/images/r1.png}">
+            <br>
+            <img class="img-responsive" src="/static/images/r2.png" th:src="@{/images/r2.png}">
+            <br>
+
+        </div>
+    </div>
+</div>
+
+<div th:fragment="right">
+    <div class="col-sm-1 hidden-xs hidden-sm banner-wrapper-vertical">
+        <div id="right-banner" class="banner" sec:authorize="isAuthenticated()and!hasAuthority('ADMIN')">
+            <img class="img-responsive" src="/static/images/r4.png" th:src="@{/images/r4.png}">
+            <br>
+            <img class="img-responsive" src="/static/images/r1.png" th:src="@{/images/r1.png}">
+            <br>
+            <img class="img-responsive" src="/static/images/r2.png" th:src="@{/images/r2.png}">
+            <br>
+            <img class="img-responsive" src="/static/images/r5.png" th:src="@{/images/r5.png}">
+            <br>
+            <img class="img-responsive" src="/static/images/r4.png" th:src="@{/images/r4.png}">
+            <br>
+            <img class="img-responsive" src="/static/images/r3.png" th:src="@{/images/r3.png}">
+            <br>
+        </div>
+    </div>
+
+</div>
+
+<div th:fragment="bottom">
+    <div id="bottom-banner" class="banner col-xs-12 hidden-xs"
+         sec:authorize="isAuthenticated()and!hasAuthority('ADMIN')">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-1">
+                    <img class="img-responsive" height="50" width="50" src="/static/images/r4.png"
+                         th:src="@{/images/r1.png}">
+                </div>
+                <div class="col-xs-1">
+                    <img class="img-responsive" height="50" width="50" src="/static/images/r4.png"
+                         th:src="@{/images/r2.png}">
+                </div>
+                <div class="col-xs-1">
+                    <img class="img-responsive" height="50" width="50" src="/static/images/r4.png"
+                         th:src="@{/images/r3.png}">
+                </div>
+                <div class="col-xs-1">
+                    <img class="img-responsive" height="90" width="90" src="/static/images/r2.png"
+                         th:src="@{/images/r4.png}">
+                </div>
+                <div class="col-xs-1">
+                    <img class="img-responsive" height="50" width="50" src="/static/images/r4.png"
+                         th:src="@{/images/r5.png}">
+                </div>
+                <div class="col-xs-1">
+                    <img class="img-responsive" height="90" width="90" src="/static/images/r6.png"
+                         th:src="@{/images/r7.png}">
+                </div>
+                <div class="col-xs-1">
+                    <img class="img-responsive" height="50" width="50" src="/static/images/r4.png"
+                         th:src="@{/images/r5.png}">
+                </div>
+                <div class="col-xs-1">
+                    <img class="img-responsive" height="50" width="50" src="/static/images/r4.png"
+                         th:src="@{/images/r4.png}">
+                </div>
+                <div class="col-xs-1">
+                    <img class="img-responsive" height="50" width="50" src="/static/images/r4.png"
+                         th:src="@{/images/r2.png}">
+                </div>
+                <div class="col-xs-3">
+                    <img class="img-responsive" height="140" width="150" src="/static/images/r7.png"
+                         th:src="@{/images/r7.png}">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</html>
