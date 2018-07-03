@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.Optional;
@@ -74,9 +75,11 @@ public class Search {
             @RequestParam(required = false, value = ATTR_NAME.FROM_PRICE, defaultValue = "0") Double fromPrice,
             @RequestParam(required = false, value = ATTR_NAME.TO_PRICE, defaultValue = "9999999") Double toPrice,
             @RequestParam Map<String, String> allRequestParams,
-            Model model) {
-        log.debug("Request Params " + allRequestParams);
 
+            Model model) {
+        if (log.isDebugEnabled()){
+        log.debug("Request Params " + allRequestParams);
+        }
         final SearchRequest searchRequest = SearchRequest.builder()
                 .query(query)
                 .fromPrice(fromPrice)

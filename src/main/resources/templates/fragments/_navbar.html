@@ -110,12 +110,12 @@
                     </li>
 
                     <li class="power-off-buttons zoom">
-                        <form th:action="@{/logout}" method="post">
+                        <form th:action="@{/logout}" method="post" th:with="t=#{msg.logout}">
                             <input class="form-control mr-sm-2" type="hidden"/>
                             <button id="logout-button" type="submit" class="btn btn-link" data-toggle="tooltip"
-                                    th:title="#{msg.signout}" data-placement="bottom">
+                                    th:title="${t}" data-placement="bottom">
                                 <i class="fa fa-power-off whitw"></i>
-                                <span class="hidden-lg hidden-md hidden-sm" th:text="#{msg.signout}"></span>
+                                <span class="hidden-lg hidden-md hidden-sm" th:text="${t}"></span>
                             </button>
                         </form>
                     </li>

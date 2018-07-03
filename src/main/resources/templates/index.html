@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{fragments/main_layout}">
 <head>
-    <title>AB</title>
+    <title th:text="#{'msg.page.' +${T(com.witosmartyn.app.config.constants.PagesID).INDEX}}"></title>
 </head>
 
 
@@ -19,7 +19,7 @@
                         <form action="/search">
                             <div class="input-group">
                                 <input type="text" class="form-control" autofocus name="query"
-                                       th:placeholder="#{search.what.find}"/>
+                                       th:placeholder="#{msg.search.query}"/>
                                 <span class="input-group-btn">
                                 <button class="btn btn-primary" type="submit" th:text="#{msg.action.find}"></button>
                               </span>

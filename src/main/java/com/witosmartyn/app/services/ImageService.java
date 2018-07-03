@@ -22,6 +22,7 @@ public class ImageService {
     public Image save(Image image) {
         return imageRepository.save(image);
     }
+
     public Collection<Image> save(Collection<Image> images) {
         return imageRepository.save(images);
     }
@@ -31,11 +32,10 @@ public class ImageService {
     }
 
     public List<String> getStringsList(Item item) {
-        final List<Image> images= imageRepository.findByItem(item);
+        final List<Image> images = imageRepository.findByItem(item);
         final List<String> names = new ArrayList<>();
 
         images.forEach(image -> names.add(image.getName()));
         return names;
     }
-
 }

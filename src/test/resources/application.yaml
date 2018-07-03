@@ -1,0 +1,15 @@
+spring:
+    datasource:
+        password: 'sa'
+        username: sa
+        url: jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        show-sql: false
+        generate-ddl: true
+        hibernate:
+          ddl-auto: 'create-drop'
+
+
+
+

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{admin/_layout}">
+<head>
+    <title th:text="#{'msg.page.' +${T(com.witosmartyn.app.config.constants.PagesID).STATISTICS}}"></title>
+</head>
+
+
+<body>
+    <div layout:fragment="content" th:with="staticIP =${@statisticsBean.getIpStatistic()}">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">RequestSessionID</th>
+                    <th scope="col">Username  and IP address </th>
+
+                </tr>
+            </thead>
+            <tbody th:each="ip : ${staticIP}">
+                <tr>
+                    <td th:text="${ip.key}">key</td>
+                    <td th:text="${ip.value?:'anonimus'}">value</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+</body>
+</html>

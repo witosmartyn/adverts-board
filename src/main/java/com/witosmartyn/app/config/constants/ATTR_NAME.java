@@ -33,7 +33,9 @@ public class ATTR_NAME {
     public static final String ORDER_BY = "orderBy";
     public static final String SEARCH_REQUEST = "searchRequest";
     public static final String PAGE_TITLE = "pageTitle";
+    public static final String PAGE_ID = "page_id";
     public static final String USER_ITEMS_COUNT = "userItemsCount";
+    public static final String MAX_UPLOAD_FILE_SIZE = "maxUploadFileSize";
 
     private ATTR_NAME() {
     }

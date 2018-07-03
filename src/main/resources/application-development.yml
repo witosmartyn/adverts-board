@@ -8,6 +8,8 @@ spring:
   jpa:
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: 'validate'
   devtools:
      livereload:
        enabled: true
@@ -34,11 +36,10 @@ logging:
             config: debug
             services: debug
         root: info
-    pattern:
-#       console: "%d %-5level %logger : %Msg%n"
-       file: "%d %-5level [%thread] %logger : %Msg%n"
+#    pattern:
+#       console: "%d %-5level %logger : %msg%n"
     config:
-    file: logs/app.log
+#    file: logs/app.log
 
 #debug: true
 

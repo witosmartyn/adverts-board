@@ -7,6 +7,7 @@ public class VIEWS {
      public static final String EDIT_USER_PAGE = "admin/editUser";
      public static final String CONTROL_PAGE = "admin/control";
      public static final String ADD_USER_PAGE = "admin/addUser";
+     public static final String STATISTIC_PAGE = "admin/statistics";
 
      public static final String SHOW_ITEM_PAGE = "user/itemDetails";
 
@@ -19,6 +20,6 @@ public class VIEWS {
      public static final String REGISTER_FORM = "views/register";
      public static final String LOGIN_PAGE = "views/login";
 
-     private VIEWS() {
+    private VIEWS() {
      }
 }

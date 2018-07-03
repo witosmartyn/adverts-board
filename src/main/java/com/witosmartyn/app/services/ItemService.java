@@ -7,7 +7,7 @@ import com.witosmartyn.app.entities.Image;
 import com.witosmartyn.app.entities.Item;
 import com.witosmartyn.app.entities.User;
 import com.witosmartyn.app.repositories.ItemRepository;
-import lombok.AllArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,24 +18,33 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 import java.util.*;
 
 
 @Service()
 @Slf4j
-@AllArgsConstructor(onConstructor = @__({@Autowired}))
+//@AllArgsConstructor(onConstructor = @__({@Autowired}))
 public class ItemService {
+    @Setter(onMethod =@__({@Autowired}) )
     private ItemRepository itemRepository;
+
+    @Setter(onMethod =@__({@Autowired}) )
     private UserService userService;
+
+    @Setter(onMethod =@__({@Autowired}) )
     private CategoryService categoryService;
+
+    @Setter(onMethod =@__({@Autowired}) )
+    private ImageProcessor imageProcessor;
+
+
 
     public Item save(Item item) {
         return itemRepository.save(item);
     }
 
     public Item saveItemWithImages(@NotNull Item item, MultipartFile[] mpFiles) {
-        Set<Image> newImages = mpFilesToListImages(item, mpFiles);
+        Set<Image> newImages = imageProcessor.convertFiles(item, mpFiles);
         if (!newImages.isEmpty()) {
             item.setAvatarId(new ArrayList<>(newImages).get(0).getName());
         }
@@ -54,31 +63,8 @@ public class ItemService {
         return saved;
     }
 
-    private Set<Image> mpFilesToListImages(@NotNull Item item, MultipartFile[] mpFiles) {
-        Set<Image> newImages = new HashSet<>();
-        if (mpFiles != null && mpFiles.length > 0) {
-            for (MultipartFile file : mpFiles) {
-                if (file.getSize() > 0) {//minimal file_size in bytes
-                    try {
-                        final Image img = Image.builder()
-                                .name(file.getOriginalFilename() + System.nanoTime())
-                                .size(file.getSize())
-                                .type(file.getContentType())
-                                .pic(file.getBytes())
-                                .item(item)//setParent
-                                .build();
-                        newImages.add(img);//add each image to collection
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
 
-            }
-        }
-        return newImages;
-    }
-
-    public Item updateItemWithImages(@NotNull Item old, Item edited, MultipartFile[] mpFiles) {
+    public Item updateItemWithImages(@NotNull Item old, Item edited, @NotNull MultipartFile[] mpFiles) {
         old.setName(edited.getName());
         old.setDescription(edited.getDescription());
         old.setCategory(edited.getCategory());

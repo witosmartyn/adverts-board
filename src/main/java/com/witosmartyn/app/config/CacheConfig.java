@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Profile;
  */
     @Configuration
     @EnableCaching
-    @Profile("production")
+    @Profile({"production","development"})
     @Log4j
     public class CacheConfig {
 
@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Profile;
         public CacheManager cacheManager() {
 
             final CacheManager cm = new ConcurrentMapCacheManager(
-                    "categories"
+                    "cate"
                     , "allRoles"
                     , "cities");
             log.info("### CASHE CONFIG ###");

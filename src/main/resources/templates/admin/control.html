@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{admin/_layout}">
 <head>
-    <title>Control panel</title>
+    <title th:text="#{'msg.page.' +${T(com.witosmartyn.app.config.constants.PagesID).ADMIN_PANEL}}"></title>
 </head>
 
 
@@ -14,19 +14,24 @@
     <div class="input-group">
 
         <div class="btn-group">
-            <button class="btn btn-danger" type="submit" form="deleteall" th:with="t=#{msg.admin.delete.all.users}"
-                    data-toggle="tooltip" data-placement="bottom" th:title="${t}"
-            >
-                <i class="fa fa-trash"></i>
-                <t th:text="${t}"></t>
-                <form id="deleteall" class="btn danger" action="/control/users/deleteall" method="POST">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                </form>
+            <!--ToDo modal confirmation window  -->
 
-            </button>
+            <!--<button class="btn btn-danger" type="submit" form="deleteall" th:with="t=#{msg.admin.delete.all.users}"-->
+                    <!--data-toggle="tooltip" data-placement="bottom" th:title="${t}"-->
+            <!--&gt;-->
+                <!--<i class="fa fa-trash"></i>-->
+                <!--<t th:text="${t}"></t>-->
+                <!--<form id="deleteall" class="btn danger" action="/control/users/deleteall" method="POST">-->
+                    <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+                <!--</form>-->
+            <!--</button>-->
 
             <a th:href="${'/control/users/add'}" class="btn btn-primary" data-toggle="tooltip"
                th:title="#{msg.add-user}" th:text="#{msg.add-user}">
+                <i class="fa fa-plus-square"></i>
+            </a>
+            <a th:href="${'/control/statistic'}" class="btn btn-success" data-toggle="tooltip"
+               th:title="#{msg.statistic}" th:text="#{msg.statistic}">
                 <i class="fa fa-plus-square"></i>
             </a>
 

@@ -3,21 +3,23 @@
 
 <div th:fragment="_statistics">
 
-    <div id="items_statistics">
-        <span>
-        <i class="fa fa-info orange"></i>
+    <div id="items_statistics" th:with="t=#{msg.items.amount.all}" data-toggle="tooltip" th:title="${t}"
+         data-placement="right">
+        <span >
+            <i class="fa fa-info orange"></i>
             <span class="text text-warning hidden-sm"
-                  th:text="#{msg.items.amount.all}"></span>
+                  th:text="${t}+':'"></span>
         <span class="text text-success"
              th:text="${@statisticsBean.advertsAmount ?:'unknown'}"></span>
         </span>
 
     </div>
-    <div id="users_statistics" >
+    <div id="users_statistics" th:with="t=#{msg.users.amount.registered}" data-toggle="tooltip" th:title="${t}"
+         data-placement="right">
         <span>
         <i class="fa fa-user green"></i>
             <span class="text text-warning  hidden-sm"
-                  th:text="#{msg.users.amount.registered}"></span>
+                  th:text="${t}+':'"></span>
        <span class="text text-success"
              th:text="${@statisticsBean.usersRegisteredAmount ?:'unknown'}" ></span>
         </span>

@@ -11,9 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Vitalii Martyniuk
@@ -44,8 +42,12 @@ public class StatisticsBean {
     private Long advertsAmount;
     private Long usersRegisteredAmount;
 
-    private List<Category> availibleCategories = new ArrayList<>();
+//    private List<Category> availibleCategories = new ArrayList<>();
     private Map<Category, Long> countItemByCategory;
+
+
+
+    private Map<String, String> ipStatistic;
 
     /**
      * @return map
@@ -81,17 +83,17 @@ public class StatisticsBean {
     @PostConstruct
     public void init() {
         updateAvailableCategories();
-
+        this.ipStatistic = new HashMap<>();
     }
 
-    /**
-     * Evaluates category list  @link {@link #availibleCategories}
-     */
+//    /**
+//     * Evaluates category list  @link {@link #availibleCategories}
+//     */
     public void updateAvailableCategories() {
-        if (log.isDebugEnabled()) {
-            log.debug(MSG_UPDATE_AVAILABLE_CATEGORIES);
-        }
-        this.availibleCategories = (List<Category>) categoryService.findAll();
+//        if (log.isDebugEnabled()) {
+//            log.debug(MSG_UPDATE_AVAILABLE_CATEGORIES);
+//        }
+//        this.availibleCategories = (List<Category>) categoryService.findAll();
     }
 
     /**
@@ -136,8 +138,9 @@ public class StatisticsBean {
         return usersRegisteredAmount;
     }
 
-    public List<Category> getAvailibleCategories() {
-        return this.availibleCategories;
+    public Collection<Category> getAvailibleCategories() {
+        return categoryService.findAll();
+//        return this.availibleCategories;
     }
 
     /**
@@ -147,5 +150,17 @@ public class StatisticsBean {
         return advertsAmount;
     }
 
+    /**
+     * Add to map all new guest
+     */
+    public void addGuestToStatistic(String requestedSessionId, String ipAndUsername) {
+        this.ipStatistic.put(requestedSessionId, ipAndUsername);
+    }
+    /**
+     * @return Map all guest (reqSessionID,ip+userName)
+     */
+    public Map<String, String> getIpStatistic() {
+        return ipStatistic;
+    }
 
 }

@@ -74,7 +74,12 @@ public class AdminController {
         return Redirect.TO_CONTROL;
     }
 
-//EDIT
+    @GetMapping(value = "/statistic")
+    public String showStatisticPage(Model model) {
+        return VIEWS.STATISTIC_PAGE;
+    }
+
+    //EDIT
     @GetMapping(value = "/users/edit/{id}")
     public String editUser(@PathVariable("id") long id, Model model, HttpSession session) {
         final User user = userService.findById(id);

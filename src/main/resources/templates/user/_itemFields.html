@@ -28,7 +28,18 @@
     <div class="row form-group">
             <label class="col-sm-2 control-label" for="images" th:text="#{msg.input.download.images}">Download images</label>
         <div class="col-sm-10">
-            <input type="file" multiple id="images" th:name="mpFiles"/>
+            <input type="file" multiple id="images" th:name="mpFiles" accept=".jpg, .jpeg, .png"/>
+            <div>
+<spn>
+    <t  th:text="${'max:'}"></t>
+    <t th:id="max-size" th:text="${maxUploadFileSize?:''}"></t>
+    <t  th:text="${'Kb'}"></t>
+
+</spn>
+                <div hidden th:id="message" th:text="${error?:''}"></div>
+
+            </div>
+
             <div class="text text-danger" th:if="${images_error}" th:text="*{images_error}"></div>
         </div>
     </div>
@@ -49,7 +60,21 @@
         </div>
 
 
+        <script>
+            var uploadField = document.getElementById("images");
+            var maxSize = document.getElementById("max-size").innerHTML;
+            var message = document.getElementById("message").innerHTML;
+            var maxSizeBytes = maxSize*1024;
 
+            uploadField.onchange = function() {
+                console.log(maxSizeBytes)
+
+                if(this.files[0].size > maxSizeBytes){
+                    alert(message);
+                    this.value = "";
+                };
+            };
+        </script>
     </div>
 </div>
 

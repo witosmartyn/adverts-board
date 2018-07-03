@@ -12,6 +12,7 @@ import com.witosmartyn.app.services.*;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,15 +36,17 @@ import java.util.List;
 public class Profile {
 
     @Autowired
-    public Profile(CityService cityService, UserService userService,
-                   CategoryService categoryService, Search search, ItemService itemService,
-                   ImageService imageService) {
+    public Profile(CityService cityService,
+                   UserService userService,
+                   CategoryService categoryService,
+                   Search search,
+                   ItemService itemService
+                   ) {
         this.cityService = cityService;
         this.userService = userService;
         this.categoryService = categoryService;
         this.search = search;
         this.itemService = itemService;
-        this.imageService = imageService;
     }
 
     private CityService cityService;
@@ -56,11 +59,18 @@ public class Profile {
     private MyMessageSource msg;
 
     private ItemService itemService;
-    private ImageService imageService;
 
     @ModelAttribute
-    public void addAttrib(Model model, HttpSession session) {
+    public void addAttrib(Model model,
+                          HttpSession session,
+    @Value("${spring.http.multipart.max-file-size:1024000}")String maxUploadFileSize) {
+        String maxUploadFileSizeStr = maxUploadFileSize.replace("KB","");
+
+//        final Long maxIntUploadFileSize = Long.valueOf(maxUploadFileSizeInt);
+        model.addAttribute(ATTR_NAME.MAX_UPLOAD_FILE_SIZE, maxUploadFileSizeStr);
+        model.addAttribute(ATTR_NAME.MSG_ERROR, msg.get("msg.validation.exceeded.max.file.size",maxUploadFileSize));
         model.addAttribute(ATTR_NAME.PAGE_TITLE, PagesID.PROFILE);
+
         if (session.getAttribute(ATTR_NAME.USER_ITEMS_COUNT) == null) {
             Long userItemsCount = itemService.countUseritems(userService.principalUser());
             session.setAttribute(ATTR_NAME.USER_ITEMS_COUNT, userItemsCount);
@@ -97,7 +107,7 @@ public class Profile {
         model.addAttribute(ATTR_NAME.ITEM, new Item());
         model.addAttribute(ATTR_NAME.ALL_CATEGORIES, categoryService.findAll());
         model.addAttribute(ATTR_NAME.ALL_CITIES, cityService.findAll());
-        model.addAttribute(ATTR_NAME.PAGE_TITLE, PagesID.ADD_ITEM);
+        model.addAttribute(ATTR_NAME.PAGE_ID, PagesID.ADD_ITEM);
 
         return VIEWS.EDIT_ITEM_PAGE;
     }
@@ -111,7 +121,7 @@ public class Profile {
         model.addAttribute(ATTR_NAME.ITEM, item);
         model.addAttribute(ATTR_NAME.ALL_CATEGORIES, categoryService.findAll());
         model.addAttribute(ATTR_NAME.ALL_CITIES, cityService.findAll());
-        model.addAttribute(ATTR_NAME.PAGE_TITLE, PagesID.EDIT_ITEM);
+        model.addAttribute(ATTR_NAME.PAGE_ID, PagesID.EDIT_ITEM);
         return VIEWS.EDIT_ITEM_PAGE;
     }
 
@@ -122,7 +132,8 @@ public class Profile {
             /*@Valid*/ Item edited,
             @RequestParam(value = "mpFiles", required = false) MultipartFile[] mpFiles,
             BindingResult bindingResult, Model model, RedirectAttributes flash, HttpSession session) {
-        itemValidator.validate(edited, bindingResult);
+            itemValidator.validate(edited, bindingResult);
+
         if (bindingResult.hasErrors()) {
             model.addAttribute(ATTR_NAME.ITEM, edited);
             model.addAttribute(ATTR_NAME.ALL_CATEGORIES, categoryService.findAll());
@@ -135,8 +146,7 @@ public class Profile {
 //       if item new
         if (edited.getId() == null) {
             Item savedItem = itemService.saveItemWithImages(edited, mpFiles);
-
-            log.debug(savedItem);
+                if (log.isDebugEnabled()) {log.debug("item "+savedItem.getName()+"success saved in database");}
             final String flashMessage = msg.get("msg.adv.success.added", savedItem.getName());
             flash.addFlashAttribute(ATTR_NAME.MSG_SUCCESS, flashMessage);
             session.setAttribute(ATTR_NAME.USER_ITEMS_COUNT,(Long )session.getAttribute(ATTR_NAME.USER_ITEMS_COUNT)+1);
@@ -165,7 +175,7 @@ public class Profile {
     }
 
     @PostMapping("/items/deleteAll")
-    public String deleteAll(Model model, RedirectAttributes flash,HttpSession session) {
+    public String deleteAll( RedirectAttributes flash,HttpSession session) {
         List<Long> idsDeleted = itemService.deleteByUser(userService.principalUser());
 
         log.info("items cont" + idsDeleted.size() + " successfully_DELETED");

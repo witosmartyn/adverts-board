@@ -26,8 +26,8 @@ public class CityService {
 
     @Cacheable(value = "cities")
     public Collection<City> findAll() {
-        log.warn("\n########################### ATTENTION #################################"+
-                 "\n######### INVOKED METHOD findAll cities, should invoke cache !!! ######");
+        log.warn("\n################### ATTENTION #############################"+
+                 "\n## INVOKED METHOD findAll cities, should invoke cache !!! #");
         return repo.findAll();
     }
 

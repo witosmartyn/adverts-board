@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{fragments/main_layout}">
 <head>
-    <title></title>
+    <title th:text="#{'msg.page.' +${T(com.witosmartyn.app.config.constants.PagesID).LOGIN}}"></title>
 </head>
 
 
@@ -28,13 +28,19 @@
                     <div class="form-group required">
                         <label for="email" class="col-sm-2 control-label" th:text="#{msg.label.email}">Email</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" autofocus id="email" th:placeholder="#{msg.login.email}" name="username"/>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input type="email" class="form-control"  id="email" th:placeholder="#{msg.login.email}" name="username" autofocus autocomplete required/>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group required">
                         <label for="password" class="col-sm-2 control-label" th:text="#{msg.label.password}" >Password</label>
                         <div class="col-sm-10">
-                            <input type="password" class="form-control" id="password" th:placeholder="#{msg.login.password}" name="password"/>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input type="password" class="form-control" id="password" th:placeholder="#{msg.login.password}" name="password" autocomplete required/>
+                            </div>
                         </div>
                     </div>
                           <div class="form-group required">

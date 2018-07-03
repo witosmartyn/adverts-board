@@ -64,6 +64,9 @@ public class Beans  {
                 //pages
                 "classpath:/i18n/footer/messages",
                 "classpath:/i18n/pages/messages",
+                "classpath:/i18n/pages/search/messages",
+                "classpath:/i18n/pages/titles/messages",
+                "classpath:/i18n/pages/loginRegistration/messages",
                 "classpath:/i18n/categories/messages",
                 //validation
                 "classpath:/i18n/validation/messages"); //

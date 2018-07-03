@@ -4,13 +4,13 @@ server:
     #stacktrace in page error
     include-stacktrace: always
   session:
-    timeout: 36000
+    timeout: 360000
 security:
   ignored: "/readme.txt"
   sessions: stateless
 spring:
   profiles:
-    active: heroku-mysql
+    active: production
   messages:
     basename: i18n
     cache-seconds: 5
@@ -22,14 +22,7 @@ spring:
       maximum-pool-size: 5
       minimum-idle: 3
       pool-name: HikariConnectionPool
-    data: "classpath:import.sql"
-  jta:
-      log-dir: logs/jta.log
   jpa:
-      show-sql: true
-      generate-ddl: true
-      hibernate:
-        ddl-auto: 'update'
       properties:
         hibernate:
           enable_lazy_load_no_trans: true
@@ -37,3 +30,8 @@ spring:
     multipart:
       max-request-size: 3000KB
       max-file-size: 1000KB
+  resources:
+    cache-period: 60
+  h2:
+    console:
+      enabled: false

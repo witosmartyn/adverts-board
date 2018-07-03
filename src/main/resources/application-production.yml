@@ -1,12 +1,17 @@
 spring:
     datasource:
       platform: org.hibernate.dialect.MySQL5InnoDBDialect
-      url: jdbc
-      username:  
-      password:  
+      url: x
+      username: x
+      password: x
     jpa:
       show-sql: false
       database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+      hibernate:
+              ddl-auto: 'none'
+    main:
+      banner-mode: CONSOLE
+
 logging:
     level:
         org:
@@ -24,3 +29,5 @@ logging:
             config: error
             services: error
         root: info
+    pattern:
+     file: "%d %-5level [%thread] %logger : %msg%n"

@@ -12,16 +12,16 @@
                 <i class="fa fa-eye" th:alt="views"></i>
                 <div th:text="${'23'}"></div>
             </div>
-
-            <div class="col-xs-5">
-                <div th:text="#{msg.item.created}+': '+${item.created}"></div>
-            </div>
-            <div class="col-xs-5">
-                <div th:text="#{msg.item.updated}+': '+${item.updated}"></div>
-            </div>
-            <div class="col-xs-3">
+            <div class="col-xs-12 col-sm-6 col-md-4">
                 <div th:text="#{msg.identifier}+': '+${item.id}"></div>
             </div>
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div th:text="#{msg.item.created}+': '+${#dates.format(item.created,'dd-MM-yyyy HH:mm')}"></div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div th:text="#{msg.item.updated}+': '+${#dates.format(item.created,'dd-MM-yyyy HH:mm')}"></div>
+            </div>
+
         </div>
     </div>
 

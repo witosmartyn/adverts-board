@@ -4,6 +4,7 @@
     bottom: 0;
     left: 0;
     text-align: center;
+    color: #359f2d;
     background: rgba(5, 255, 5, 0.35);
 }
 .zoom:hover {

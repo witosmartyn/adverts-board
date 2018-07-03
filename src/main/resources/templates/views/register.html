@@ -4,53 +4,71 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{fragments/main_layout}">
 <head>
-    <title></title>
+    <title th:text="#{'msg.page.' +${T(com.witosmartyn.app.config.constants.PagesID).REGISTRATION}}"></title>
+    <!--<title th:text="#{msg.page.registration}"></title>-->
 </head>
 
 
 <body>^
 <div layout:fragment="content">
     <div class="col-xs-12  col-md-6 col-md-offset-3">
-        <div class="panel panel-info" >
+        <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">Register with Username and Password</h3>
+                <p class="panel-title" th:text="#{msg.register.with}"></p>
             </div>
-            <div>
-            </div>
-            <form id="registerForm" action="" th:action="@{/register}" th:object="${userDto}" method="post" th:if="!${successfull}">
+
+            <form id="registerForm" action="" th:action="@{/register}" th:object="${userDto}" method="post"
+                  th:if="!${successfull}">
                 <div class="panel-body">
 
-                <div class="form-group required">
-                    <label for="email" class="form-control-label" th:text="#{msg.label.email}" >Email</label>
-                    <input type="text" class="form-control" id="email" th:field="*{username}"  th:placeholder="#{msg.input.email}"/>
-                     <div class="text text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
-                     <div class="alert alert-danger" th:if="${userexist}" th:text="#{error.user.exist}"></div>
-
-                </div>
-                <div class="form-group required">
-                    <label for="password" class="form-control-label">password</label>
-                    <input type="password" class="form-control" id="password"  th:field="*{password}" th:placeholder="#{msg.input.password}"/>
-                    <div class="text text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-                </div>
                     <div class="form-group required">
-                        <label for="confirm" class="form-control-label">confirm password</label>
-                        <input type="password" class="form-control" id="confirm"  th:field="*{confirm}" th:placeholder="#{msg.input.confirm}"/>
-                        <div class="text text-danger" th:if="${#fields.hasErrors('confirm')}" th:errors="*{confirm}"></div>
-                        <div class="text text-danger" th:if="${confirm_password_error}" >confirm password error</div>
+                        <label for="email" class="form-control-label" th:text="#{msg.label.email}">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" class="form-control" id="email" th:field="*{username}"
+                                   th:placeholder="#{msg.input.email}" required/>
+                        </div>
+
+                        <div class="text text-danger" th:if="${#fields.hasErrors('username')}"
+                             th:errors="*{username}"></div>
+                        <div class="alert alert-danger" th:if="${userexist}" th:text="#{error.user.exist}"></div>
+
+                    </div>
+                    <div class="form-group required">
+                        <label for="password" class="form-control-label" th:text="#{msg.label.password}"></label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" class="form-control" id="password" th:field="*{password}"
+                                   th:placeholder="#{msg.input.password}" required/>
+                        </div>
+                        <div class="text text-danger" th:if="${#fields.hasErrors('password')}"
+                             th:errors="*{password}"></div>
+                    </div>
+                    <div class="form-group required">
+                        <label for="confirm" class="form-control-label" th:text="#{msg.input.confirm}">confirm</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input type="password" class="form-control" id="confirm" th:field="*{confirm}"
+                                   th:placeholder="#{msg.input.password}" required/>
+                        </div>
+
+                        <div class="text text-danger" th:if="${#fields.hasErrors('confirm')}"
+                             th:errors="*{confirm}"></div>
+                        <div class="text text-danger" th:if="${confirm_password_error}">confirm password error</div>
                     </div>
 
-                <div class="form-group">
-                    <!--<input type="submit" class="btn btn-info" id="submit" th:value="submit"/>-->
-                    <button type="submit" class="btn btn-info" id="submit" >
-                        <span class="fa fa-user"></span>
-                        <span th:text="#{msg.signup}"></span>
-                    </button>
+                    <div class="form-group">
+                        <!--<input type="submit" class="btn btn-info" id="submit" th:value="submit"/>-->
+                        <button type="submit" class="btn btn-info" id="submit">
+                            <span class="fa fa-user"></span>
+                            <span th:text="#{msg.signup}"></span>
+                        </button>
 
+                    </div>
                 </div>
-            </div>
 
             </form>
-            <div class="alert alert-success" th:if="${successfull}" >
+            <div class="alert alert-success" th:if="${successfull}">
                 <div class="jumbotron">
                     <p th:text="#{msg.registration.success}"></p>
                     <a href="/login" class="btn btn-info">
@@ -71,7 +89,6 @@
     </div>
 
 </div>
-
 
 
 </body>
