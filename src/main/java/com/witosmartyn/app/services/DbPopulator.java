@@ -4,7 +4,6 @@ import com.witosmartyn.app.config.constants.PERMISSIONS;
 import com.witosmartyn.app.config.constants.ROLES;
 import com.witosmartyn.app.config.enums.Categories;
 import com.witosmartyn.app.config.enums.Cities;
-import com.witosmartyn.app.entities.Item;
 import com.witosmartyn.app.entities.Permission;
 import com.witosmartyn.app.entities.Role;
 import com.witosmartyn.app.entities.User;
@@ -36,15 +35,10 @@ public class DbPopulator {
     private final String PASSWORD;
 
     private CityService cityService;
-
     private RoleService roleService;
     private UserService userService;
-    private final CategoryService categoryService;
-    private ItemService itemService;
+    private CategoryService categoryService;
     private PermissionRepository permissions;
-
-
-
 
     @PostConstruct
     public void onApplicationEvent() {
@@ -67,11 +61,9 @@ public class DbPopulator {
 
         this.USER_ROLES.add(USER_ROLE);
 
-
         createDefaultCategories();
         createDefaultCities();
         createAdmin();
-
     }
 
     private void createDefaultCategories() {
@@ -100,22 +92,6 @@ public class DbPopulator {
 
         return user;
     }
-
-    private final Item createItemIfNotFound(final String name) {
-        Item item = itemService.findByName(name);
-        if (item == null) {
-            item = new Item();
-            item.setName("Advert " + name);
-            item.setDescription("Описание " + name);
-            item.setPrice(Math.ceil(Math.random()*100));
-            item.setCity(cityService.findById(getRandomId(cityService.count())));
-            item.setCategory(categoryService.findById(getRandomId(categoryService.count())));
-
-            item.setPhone("8093"+(int)Math.ceil(Math.random()*10_000_000));
-        }
-        return item;
-    }
-
 
     private final Permission createPermissionIfNotFound(final String name) {
         Permission permission = permissions.findByName(name);

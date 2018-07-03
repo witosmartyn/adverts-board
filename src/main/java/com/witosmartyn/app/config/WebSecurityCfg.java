@@ -25,7 +25,6 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter  {
 //    @Setter(onMethod = @__({@Autowired,@Qualifier("userService")}) )
     private UserService userService;
 
-//    @Setter(onMethod = @__({@Autowired, @Qualifier("bcryptPasswordEncoder")}) )
     private PasswordEncoder passwordEncoder;
 
     private AuthenticationSuccessHandler customizeAuthenticationSuccessHandler;

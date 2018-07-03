@@ -1,17 +1,17 @@
-function replaceUrlParam(url, paramName, paramValue){
-    console.debug("url = "+url);
-    console.debug("paramName = "+paramName);
-    console.debug("selectedOption = "+paramValue);
+function replaceUrlParam(url, paramName, paramValue) {
+    console.debug("url = " + url);
+    console.debug("paramName = " + paramName);
+    console.debug("selectedOption = " + paramValue);
 
     if (paramValue == null) {
         paramValue = '';
     }
-    var pattern = new RegExp('\\b('+paramName+'=).*?(&|$)');
-    if (url.search(pattern)>=0) {
-        return url.replace(pattern,'$1' + paramValue + '$2');
+    var pattern = new RegExp('\\b(' + paramName + '=).*?(&|$)');
+    if (url.search(pattern) >= 0) {
+        return url.replace(pattern, '$1' + paramValue + '$2');
     }
-    url = url.replace(/\?$/,'');
-    return url + (url.indexOf('?')>0 ? '&' : '?') + paramName + '=' + paramValue;
+    url = url.replace(/\?$/, '');
+    return url + (url.indexOf('?') > 0 ? '&' : '?') + paramName + '=' + paramValue;
 }
 
 
@@ -25,7 +25,7 @@ function topNotyfy(msg) {
     });
 }
 
-$('#myForm').submit(function(){
+$('#myForm').submit(function () {
     $('input[name="_csrf"]').prop('disabled', true);
 });
 
@@ -37,14 +37,14 @@ function validateItemForm(msg) {
     var name = fr["name"].value;
     var descr = fr["description"].value;
 
-    if ( name.length <1) {
+    if (name.length < 1) {
         $("#name").text(msg);
         topNotyfy(msg);
         console.log(msg);
         return false;
 
     }
-    if (descr.length <1) {
+    if (descr.length < 1) {
         $("#description").text(msg);
         topNotyfy(msg);
         console.log(msg);
@@ -55,8 +55,6 @@ function validateItemForm(msg) {
     console.log("Success");
     return true;
 }
-
-
 
 
 // readyPage
@@ -72,18 +70,23 @@ $(document).ready(function () {
     $("#locales").change(function () {
         var selectedOption = $('#locales').val();
         if (selectedOption != '') {
-            var href =window.location.href;
+            var href = window.location.href;
 
             // window.location.replace('/?lang=' + selectedOption);
-            var newURL= replaceUrlParam(href,'lang',selectedOption)
+            var newURL = replaceUrlParam(href, 'lang', selectedOption)
             console.debug(newURL);
             window.location.replace(newURL);
 
         }
 
 
-
-
-
     });
 });
+
+$('[form-confirm-id]').click(function () {
+    var formForSubmitId = this.getAttribute('form-confirm-id');
+    $('#dialogSubmit').click(function submitFormById() {
+        $('#' + formForSubmitId).submit();
+    });
+});
+

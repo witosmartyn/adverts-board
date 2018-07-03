@@ -9,7 +9,7 @@
 <body>
 <div layout:fragment="content">
     <label id="labelmy" for="items-wrapper" th:text="#{msg.user.myitems}+':'"></label>
-     <spn><label th:text="${items.totalElements}"></label></spn>
+    <span><label th:text="${items.totalElements}"></label></span>
 
     <div class="row">
         <div class="col-xs-4 ">
@@ -17,13 +17,18 @@
                 <div th:if="${items.totalElements}!=0">
                     <div class="btn-group  btn-group-xs ">
 
-                        <form style=" display:inline;" th:action="@{/profile/items/deleteAll}" id="formPostDeleteAll" method="POST">
+                        <form style=" display:inline;" th:action="@{/profile/items/deleteAll}"
+                              id="formPostDeleteAll"
+                              method="POST">
                             <input type="hidden" th:name="${_csrf.parameterName}"
                                    th:value="${_csrf.token}"/>
-                            <button type="submit" class="btn btn-danger"
-                                    data-toggle="tooltip"
+                            <button type="button" name="btn" value="Submit"
+                                    form-confirm-id="formPostDeleteAll"
+
+                                    data-toggle="modal" class="btn btn-danger"
                                     th:title="#{msg.items.delete.all}"
-                                    th:text="#{msg.items.delete.all}">
+                                    th:text="#{msg.items.delete.all}"
+                                    data-target="#confirm-submit" >
                                 <i class="fa fa-trash fa-2x"></i>
                             </button>
                         </form>
@@ -80,32 +85,35 @@
         </div>
     </div>
 
-<div th:if="${items.totalElements}==0">
-    <div class="jumbotron">
-        <div class="text-center">
-            <p th:text="#{msg.user.no.items}"></p>
-            <div class="padding-1x">
-                <div class="btn-group">
+    <div th:if="${items.totalElements}==0">
+        <div class="jumbotron">
+            <div class="text-center">
+                <p th:text="#{msg.user.no.items}"></p>
+                <div class="padding-1x">
+                    <div class="btn-group">
 
-                    <a th:href="@{/profile/items/new}"  class="btn btn-success btn-lg" data-toggle="tooltip" th:title="#{msg.item.add}"
-                       data-placement="bottom">
-                        <i class="fa fa-plus-square "></i>
-                        <t class="" th:text="#{msg.item.add}"></t>
-                    </a>
+                        <a th:href="@{/profile/items/new}" class="btn btn-success btn-lg" data-toggle="tooltip"
+                           th:title="#{msg.item.add}"
+                           data-placement="bottom">
+                            <i class="fa fa-plus-square "></i>
+                            <t class="" th:text="#{msg.item.add}"></t>
+                        </a>
+                    </div>
+                </div>
+                <div class="padding-1x">
+                    <div class="btn-group">
+                        <a href="/search" class="btn btn-primary btn-lg">
+                            <i class="fa fa-search"></i>
+                            <t class="" th:text="#{msg.action.search.on.site}"></t>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="padding-1x">
-                <div class="btn-group">
-                    <a href="/search" class="btn btn-primary btn-lg">
-                        <i class="fa fa-search"></i>
-                        <t class="" th:text="#{msg.action.search.on.site}"></t>
-                    </a>
-                </div>
-            </div>
+
         </div>
-
     </div>
-</div>
+
+
     <div id="items-wrapper" th:each="item:${items}">
         <div class="panel panel-success">
             <div class="panel-heading">
@@ -117,9 +125,12 @@
                 <a href="" th:href="@{/profile/items/{id}(id=${item.id})}" target="_self">
                     <div class="row">
                         <div class="col-xs-10 col-sm-4">
-                            <div class="thumbnail" >
-                                <img th:if="${item?.avatarId == null }" class="img-responsive" th:src="@{/images/not_available.gif}" src="http://placehold.it/200x200" alt="">
-                                <img th:if="${item?.avatarId != null }" class="img-responsive" th:src="@{/files/images/{filename}(filename=${item?.avatarId})}" style="max-height:215px; max-width: 220px;" alt="">
+                            <div class="thumbnail">
+                                <img th:if="${item?.avatarId == null }" class="img-responsive"
+                                     th:src="@{/images/not_available.gif}" src="http://placehold.it/200x200" alt="">
+                                <img th:if="${item?.avatarId != null }" class="img-responsive"
+                                     th:src="@{/files/images/{filename}(filename=${item?.avatarId})}"
+                                     style="max-height:215px; max-width: 220px;" alt="">
                                 <div class="caption">
                                 </div>
                             </div>
@@ -153,15 +164,22 @@
                                        data-toggle="tooltip" th:title="#{msg.item.show}"><i
                                             class="fa fa-search-plus fa-3x"></i></a>
                                     <!--btn DELETE-->
-                                    <form style=" display:inline;" th:action="@{/profile/items/delete}" id="formPostDeleteByID" method="POST">
+                                    <form style=" display:inline;" th:action="@{/profile/items/delete}"
+                                          th:id="'formPostDeleteByID'+${item.id}" method="POST">
                                         <input type="hidden" th:name="${_csrf.parameterName}"
                                                th:value="${_csrf.token}"/>
                                         <input name="id" type="hidden" th:value="${item.id}"/>
-                                        <button type="submit" class="btn btn-danger" data-toggle="tooltip"
-                                                th:title="#{msg.delete}">
+
+                                        <button type="button" name="btn" value="Submit" id="deleteItemBtn"
+                                                th:form-confirm-id="'formPostDeleteByID'+${item.id}"
+
+                                                data-toggle="modal" class="btn btn-danger"
+                                                data-target="#confirm-submit" th:title="#{msg.delete}">
                                             <i class="fa fa-trash fa-2x"></i>
                                         </button>
+
                                     </form>
+
                                 </div>
                             </div>
                         </div>
@@ -175,6 +193,9 @@
     </div>
     <div
             th:replace="~{fragments/_pagination :: _pagination(${items},'profile')}">
+    </div>
+    <div
+            th:replace="~{fragments/_modal_dialogs :: _simple}">
     </div>
 </div>
 </body>

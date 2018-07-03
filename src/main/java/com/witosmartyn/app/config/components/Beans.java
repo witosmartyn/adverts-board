@@ -83,7 +83,8 @@ public class Beans  {
 
     @Bean
     public String propCustomNameEnv() {
-        System.out.println("########"+env.getProperty("prop.test")+"#############");
-        return "";
+        final String property = env.getProperty("prop.test");
+        log.info("#"+property+"###");
+        return property;
     }
 }

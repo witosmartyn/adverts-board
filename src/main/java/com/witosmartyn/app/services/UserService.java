@@ -48,6 +48,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void delete(Long id) {
+        log.info("delete user by id: "+id);
         users.delete(id);
     }
 

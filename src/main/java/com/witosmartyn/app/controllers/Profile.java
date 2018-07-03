@@ -166,11 +166,13 @@ public class Profile {
 
     @PreAuthorize("isOwnerOrAdmin(#id)")
     @PostMapping("/items/delete")
-    public String delete(@RequestParam("id") long id,HttpSession session) {
+    public String delete(@RequestParam("id") long id,HttpSession session,RedirectAttributes flash) {
         System.out.println(id);
         itemService.delete(id);
         session.setAttribute(ATTR_NAME.USER_ITEMS_COUNT,(Long )session.getAttribute(ATTR_NAME.USER_ITEMS_COUNT)-1);
-
+        String flashMessage;
+        flashMessage = msg.get("msg.adv.success.deleted");
+        flash.addFlashAttribute(ATTR_NAME.MSG_SUCCESS, flashMessage);
         return Redirect.TO_PROFILE;
     }
 
@@ -180,7 +182,7 @@ public class Profile {
 
         log.info("items cont" + idsDeleted.size() + " successfully_DELETED");
         String flashMessage;
-        flashMessage = msg.get("msg.adv.success.updated", idsDeleted.size());
+        flashMessage = msg.get("msg.advs.success.deleted", idsDeleted.size());
         flash.addFlashAttribute(ATTR_NAME.MSG_SUCCESS, flashMessage);
         session.removeAttribute(ATTR_NAME.USER_ITEMS_COUNT);
         return Redirect.TO_PROFILE;
