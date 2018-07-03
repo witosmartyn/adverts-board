@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org"
+>
+
+
+<div th:fragment="_simple">
+    <div class="modal fade" id="confirm-submit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <span class="margin-2x">
+                        <h3 class=" text-center" th:text="#{msg.confirm.delete.item}"></h3><br>
+                    </span>
+                    <div class="modal-footer center-block">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{msg.cancel}">cancell</button>
+                        <button id="dialogSubmit" type="button"  class="btn btn-success btn-danger" th:text="#{msg.delete}">confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</html>
