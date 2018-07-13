@@ -38,7 +38,7 @@ public class Beans  {
      * @return PasswordEncoder
      */
     @Bean
-    public PasswordEncoder bcryptPasswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         log.info("initialize BCryptPasswordEncoder");
         return new BCryptPasswordEncoder();
     }

@@ -177,3 +177,11 @@ hr{
     text-align: left;
     vertical-align: middle;
 }
+
+#logo-text {
+    color: #0c9f8d;
+    font-size: 13px;
+    text-align: center;
+    margin-top: -5px;
+    margin-bottom: 10px;
+}

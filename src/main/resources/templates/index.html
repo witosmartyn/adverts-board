@@ -36,7 +36,7 @@
         <div th:each="category:${@categoryService.findAll()}"
              th:with="catCount=${@statisticsBean.getCountItemByCategory()}">
 
-            <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="col-sm-6 col-md-4 col-lg-3 zoom zoom-1x">
                 <a href="#" th:href="@{/search/(category=${category?.id})}">
                     <div class="panel panel-info">
                         <div class="panel-heading">

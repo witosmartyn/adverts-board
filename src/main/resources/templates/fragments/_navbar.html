@@ -18,7 +18,9 @@
                 <span class="icon-bar"></span>
             </button>
             <div><a class="navbar-brand" href="/">
-                <span class="logo-begin">Ad</span><span class="logo-end">Board</span>
+                <span class="logo-begin">Ad</span>
+                <span class="logo-end">Board</span>
+                <p id="logo-text" class="zoom">Categories</p>
             </a>
             </div>
         </div>
@@ -32,7 +34,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-left navbar-user">
-                <li  class="dropdown user-dropdown  green">
+                <li  class="dropdown user-dropdown  green zoom" >
                     <a href="/search" data-toggle="tooltip" data-placement="bottom" th:with="t=#{msg.action.find}">
                        <i class="fa fa-search fa-lg orange fa-2x "></i>
                         <text class="hidden-sm hidden-md hidden-lg" th:text="${t}"></text>

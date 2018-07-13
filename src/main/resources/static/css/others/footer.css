@@ -22,6 +22,16 @@
     -moz-transition-duration: 0.5s;
     -o-transition-duration: 0.5s;
 }
+.zoom-1x {
+    -webkit-transform: scale(0.9);
+    /* Browser Variations: */
+
+    -moz-transform: scale(0.9);
+    -o-transform: scale(0.9);
+    -webkit-transition-duration: 0.1s;
+    -moz-transition-duration: 0.1s;
+    -o-transition-duration: 0.1s;
+}
 
 /*
     Multicoloured Hover Variations

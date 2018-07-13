@@ -1,5 +1,6 @@
 package com.witosmartyn.app.services;
 
+import com.witosmartyn.app.config.constants.ATTR_NAME;
 import com.witosmartyn.app.config.constants.Errors;
 import com.witosmartyn.app.config.constants.ROLES;
 import com.witosmartyn.app.entities.Role;
@@ -33,22 +34,22 @@ public class UserService implements UserDetailsService {
     private RoleService roleService;
 
     public User save(User user) {
-        return  users.save(user);
+        return users.save(user);
 
     }
 
 
     //todo implement page request
     public List<User> findAll() {
-        log.error("\n#################################################################################"+
-                  "\n########################### ATTENTION ###########################################"+
-                  "\n##### INVOKED METHOD findAll Users WITHOUT PAGE REQUEST Users from storage ######"+
-                  "\n################################################################################");
+        log.error("\n#################################################################################" +
+                "\n########################### ATTENTION ###########################################" +
+                "\n##### INVOKED METHOD findAll Users WITHOUT PAGE REQUEST Users from storage ######" +
+                "\n################################################################################");
         return users.findAll();
     }
 
     public void delete(Long id) {
-        log.info("delete user by id: "+id);
+        log.info("delete user by id: " + id);
         users.delete(id);
     }
 
@@ -109,19 +110,26 @@ public class UserService implements UserDetailsService {
 
     ////////////////// USER helper ////////////////////////////
     public User principalUser() {
-        User currentUser = (User) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        return currentUser;
+
+        final Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        if (authentication.getName().equals(ATTR_NAME.ANONYMOUS_USER)) {
+            return null;
+        }
+        return (User) authentication.getPrincipal();
+
     }
+
+
     public Optional<User> userOptional() {
         final Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
 
-        if (authentication.isAuthenticated()){
-            if (authentication.getPrincipal().equals("anonymousUser")){
-            return Optional.empty();
+        if (authentication.isAuthenticated()) {
+            if (authentication.getPrincipal().equals("anonymousUser")) {
+                return Optional.empty();
             }
         }
-        return Optional.of((User)authentication.getPrincipal());
+        return Optional.of((User) authentication.getPrincipal());
     }
 }

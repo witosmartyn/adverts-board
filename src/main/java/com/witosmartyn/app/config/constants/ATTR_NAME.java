@@ -5,6 +5,7 @@ package com.witosmartyn.app.config.constants;
  */
 public class ATTR_NAME {
 
+    public static final String ANONYMOUS_USER= "anonymousUser";
     public static final String MSG_SUCCESS= "success";
     public static final String MSG_ERROR= "error";
     public static final String MSG_LOGOUT= "logout";

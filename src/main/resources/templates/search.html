@@ -32,17 +32,18 @@
                         </div>
 
                     </div>
-<!--accordion-->
+                    <!--accordion-->
                     <div id="accordion1" class="panel-group">
                         <div class="panel panel-default">
-                            <a class="margin-1x panel-title" href="#collapse-1" data-parent="#accordion1" data-toggle="collapse">
+                            <a class="margin-1x panel-title" href="#collapse-1" data-parent="#accordion1"
+                               data-toggle="collapse">
                                 <t th:text="#{msg.advanced.search}"></t>
                                 <i class="glyphicon glyphicon-chevron-down"></i>
                             </a>
 
                             <div class="panel-collapse collapse " id="collapse-1">
                                 <div class="panel-body">
- <!-- search filters -->
+                                    <!-- search filters -->
                                     <div class="filters">
 
                                         <!--priceBetween-->
@@ -73,7 +74,8 @@
 
                                         <!--sortby-->
                                         <div class="form-group col-xs-12 col-sm-6 col-md-2">
-                                            <label class="col-xs-6 col-md-1 control-label" th:text="#{msg.search.sort.by}">Label </label>
+                                            <label class="col-xs-6 col-md-1 control-label"
+                                                   th:text="#{msg.search.sort.by}">Label </label>
                                             <select onchange="/*this.form.submit()*/"
                                                     name="sortBy"
                                                     class="selectpicker form-control form-control-lg">
@@ -86,7 +88,8 @@
                                         </div>
                                         <!--orderBy-->
                                         <div class="form-group col-xs-12 col-sm-6 col-md-2">
-                                            <label class="col-xs-6 col-md-1 control-label" th:text="#{msg.search.order.by}"></label>
+                                            <label class="col-xs-6 col-md-1 control-label"
+                                                   th:text="#{msg.search.order.by}"></label>
                                             <select onchange="/*this.form.submit()*/"
                                                     name="orderBy"
                                                     class="selectpicker form-control form-control-lg">
@@ -99,7 +102,8 @@
                                         </div>
                                         <!--city-->
                                         <div class="form-group col-xs-12 col-sm-6 col-md-2">
-                                            <label class="col-xs-6 col-md-1 control-label" th:text="#{msg.item.city}"></label>
+                                            <label class="col-xs-6 col-md-1 control-label"
+                                                   th:text="#{msg.item.city}"></label>
                                             <!--city-->
                                             <select name="city"
                                                     onchange="/*this.form.submit()*/"
@@ -116,8 +120,9 @@
                                             </select>
                                         </div>
                                         <!--category-->
-                                        <div class="form-group col-xs-12 col-sm-6 col-md-2 hideOFF" >
-                                            <label class="col-xs-6 col-md-1 control-label" th:text="#{msg.item.category}"></label>
+                                        <div class="form-group col-xs-12 col-sm-6 col-md-2 hideOFF">
+                                            <label class="col-xs-6 col-md-1 control-label"
+                                                   th:text="#{msg.item.category}"></label>
                                             <select name="category"
                                                     onchange="/*this.form.submit()*/"
                                                     class="selectpicker form-control form-control-lg">
@@ -155,7 +160,7 @@
             </div>
         </div>
     </div>
-<!-- search result -->
+    <!-- search result -->
     <div class="panel panel-success ">
         <div class="panel-body" th:with="total=${itemsPage.totalElements}">
             <div class=" row text-justify ">
@@ -167,43 +172,64 @@
                     </div>
                 </div>
                 <div th:each="item:${itemsPage}">
-                    <div class="item col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                        <div class="thumbnail" >
-                            <div class="item-avatar">
-                                <img  th:if="${item?.avatarId == null }" class="img-responsive center-block" th:src="@{/images/not_available.gif}" src="http://placehold.it/150x150" alt="">
-                                <img  th:if="${item?.avatarId != null }" class="img-responsive center-block" th:src="@{/files/images/{filename}(filename=${item?.avatarId})}"  alt="">
-                            </div>
-                            <div class="caption ">
+                    <div class="item col-lg-3 col-md-4 col-sm-6 col-xs-12 " th:with="link = @{/search/items/{id}(id=${item.id})}">
+
+                        <div class="thumbnail">
+                            <a th:href="${link}">
+
+                                <div class="item-avatar">
+                                    <img th:if="${item?.avatarId == null }"
+                                         class="img-responsive center-block img-rounded"
+                                         th:src="@{/images/not_available.gif}"  alt="">
+                                    <img th:if="${item?.avatarId != null }"
+                                         class="img-responsive center-block img-rounded zoom"
+                                         th:src="@{/files/images/{filename}(filename=${item?.avatarId})}" alt="">
+                                </div>
+                            </a>
+                            <div class="caption">
                                 <div class="info">
-                                    <div class="info"  th:with="city=${item?.city?.name}?: ''">
+                                    <div class="info" th:with="city=${item?.city?.name}?: ''">
                                         <div th:with="category=${item?.category?.name}?: ''">
                                             <span th:text="${city} +'&nbsp;'+ ${category}"></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="info item-title " >
-                                    <div class="info">
-                                        <span th:text="#{msg.item.title}+':'" class="hidden"></span>
-                                        <span><h4 th:text="${item?.name}?:''" ></h4></span>
-                                    </div>
-                                </div>
 
-                               <div class="">
-                                   <span th:text="#{price}+':'" class="hidden"></span>
-                                    <i class="fa fa-coins fa-2x" aria-hidden="true"></i>
-                                   <h4 th:text="${item?.price}!=0 ? ${item?.price} :#{msg.price.not.indicated}"></h4>
-                                </div>
-                               <div class="info">
-                                   <!--<a href="#" class="btn btn-success"><p th:text=""></p> <i class="fa fa-arrow-right"></i> </a>-->
-                                   <a href="" th:href="@{/search/items/{id}(id=${item.id})}" class="btn btn-success"
-                                      data-toggle="tooltip" th:title="#{msg.item.show}">
-                                       <i th:text="#{msg.item.show}"></i>
-                                       <i class="fa fa-arrow-right fa-1x"></i>
-                                   </a>
-                                </div>
+                                <a th:href="${link}">
+                                    <div class="info item-title ">
+                                        <div class="info">
+                                            <span th:text="#{msg.item.title}+':'" class="hidden"></span>
+                                            <span><h4 th:text="${item?.name}?:''"></h4></span>
+                                        </div>
+                                    </div>
+                                </a>
+<div class="row">
+    <div class="col-xs-6">
+        <div>
+            <span th:text="#{price}+':'" class="hidden"></span>
+            <i class="fa fa-coins fa-2x" aria-hidden="true"></i>
+            <h4 th:text="${item?.price}!=0 ? ${item?.price} :#{msg.price.not.indicated}"></h4>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="info">
+            <!--<a href="#" class="btn btn-success"><p th:text=""></p> <i class="fa fa-arrow-right"></i> </a>-->
+            <a th:href="${link}" class="btn btn-success"
+               data-toggle="tooltip" th:title="#{msg.item.show}">
+                <i th:text="#{msg.item.show}"></i>
+                <i class="fa fa-arrow-right fa-1x"></i>
+            </a>
+        </div>
+    </div>
+
+
+
+</div>
+
 
                             </div>
                         </div>
+
                     </div>
 
                 </div>

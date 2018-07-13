@@ -80,10 +80,7 @@ public class DbPopulator {
 
     private void createAdmin() {
         createUserIfNotFound( ADMIN_NAME, PASSWORD, ADMIN_ROLES);
-        if (log.isDebugEnabled()) {
-            log.debug("# admin password: "+PASSWORD);
-
-        }
+            log.info("# admin password: "+PASSWORD);
     }
 
     private final User createUserIfNotFound(final String email, final String rawPassword, final Set<Role> roles) {

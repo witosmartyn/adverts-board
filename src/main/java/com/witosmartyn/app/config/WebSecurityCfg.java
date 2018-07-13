@@ -47,16 +47,13 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter  {
         this.userService = userService;
     }
 
-
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http
             .authorizeRequests()
                 .antMatchers("/readme.txt", "/css/**","/webjars/**", "/js/**", "/images/**", "/fonts/**").permitAll()
-                .antMatchers("/search","/search/items/**").permitAll()
+                .antMatchers("/","/search/**").permitAll()
                 .antMatchers("/files/images/**").permitAll()
                 .antMatchers("/login", "/register").permitAll()
                 .antMatchers("/profile/**","/logout").hasAnyAuthority("USER","ADMIN","ACTUATOR")

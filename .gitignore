@@ -15,4 +15,6 @@ mvnw.cmd
 *.iws
 *.iml
 *.ipr
-.DS*
+logs/app.log
+bshh.sh
+.DS_Store
